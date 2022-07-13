@@ -1,7 +1,7 @@
 <template lang="pug">
 NuxtLayout
   NuxtPage.my-4.container(key="content")
-LoadingOverlay
+
 </template>
 <script setup lang="ts">
 import "bootstrap";
@@ -27,6 +27,8 @@ useHead({
 
 <style lang="scss">
 @import "highlight.js/scss/github-dark.scss";
+@import "firebaseui";
+
 // Default variable overrides
 $light: #dddddd;
 $dark: #181b2c;
@@ -42,6 +44,10 @@ $popover-border-color: $body-color;
 
 $modal-content-bg: $body-bg;
 $modal-content-color: $body-color;
+
+$toast-header-color: $body-color;
+$toast-background-color: rgba(black, 0.85);
+$toast-header-background-color: rgba(black, 0.85);
 
 $btn-close-color: $body-color;
 

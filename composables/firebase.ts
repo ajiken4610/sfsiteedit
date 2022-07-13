@@ -35,6 +35,33 @@ const appCheck = initializeAppCheck(app, {
 });
 
 import { getAuth } from "firebase/auth";
+let authLoaded = false;
 const auth = getAuth();
 export const useAuth = () => auth;
-export const isLoggined = () => !!auth.currentUser;
+export const useUser = () => auth.currentUser;
+export const isLogined = (): Promise<boolean> => {
+  if (authLoaded) {
+    return new Promise((resolve) => {
+      resolve(!!auth.currentUser);
+    });
+  } else {
+    return new Promise((resolve) => {
+      let unsubscribe = auth.onAuthStateChanged((user) => {
+        unsubscribe();
+        resolve(!!user);
+      });
+      authLoaded = true;
+    });
+  }
+};
+let isLoginedNotAsync: boolean = null;
+auth.onAuthStateChanged((user) => {
+  isLoginedNotAsync = !!user;
+});
+export const useIsLogined = () => isLoginedNotAsync;
+
+import * as firebaseui from "firebaseui";
+
+const ui = new firebaseui.auth.AuthUI(auth);
+
+export const useAuthUI = () => ui;
