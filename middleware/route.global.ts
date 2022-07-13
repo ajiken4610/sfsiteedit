@@ -5,6 +5,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     return navigateTo("/logout");
   } else if (to.path === "/logout") {
     await useAuth().signOut();
+    showToast({ title: "ログアウト", body: "ログアウト" });
     return navigateTo("/login");
   } else if (!(logined || to.meta.notRequireAuth)) {
     return navigateTo("/login");

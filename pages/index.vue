@@ -1,6 +1,5 @@
 <template lang="pug">
 div
-  Toast(body="helloworld" title="hello!!" subtitle="true" :showing="true")
   h1 サレ祭サイト投稿
   div(v-if="useIsLogined()") 
     div ボタンから新しい企画を作成します。

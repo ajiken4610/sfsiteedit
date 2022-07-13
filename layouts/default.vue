@@ -1,12 +1,25 @@
 <template lang="pug">
 div
-  Header
+  LayoutHeader
   slot
-  Footer
-  LoadingOverlay
+  LayoutFooter
+  LayoutLoadingOverlay
+  LayoutToastContainer(:toasts="toasts")
 </template>
 
 <script setup lang="ts">
+const toasts = ref<
+  { title?: string; subtitle?: string; body: string; key: number }[]
+>([]);
+
+watch(
+  getShowingToasts(),
+  (value) => {
+    toasts.value = value;
+  },
+  { deep: true, immediate: true }
+);
+
 const router = useRouter();
 const loading = ref(false);
 const overlaying = ref(false);

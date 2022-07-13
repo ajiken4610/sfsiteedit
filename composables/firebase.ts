@@ -57,6 +57,14 @@ export const isLogined = (): Promise<boolean> => {
 let isLoginedNotAsync: boolean = null;
 auth.onAuthStateChanged((user) => {
   isLoginedNotAsync = !!user;
+  if (user) {
+    showToast({
+      title: "ログイン",
+      body: user.email + "としてログインしました。",
+    });
+  } else {
+    showToast({ title: "情報", body: "ログインしていません。" });
+  }
 });
 export const useIsLogined = () => isLoginedNotAsync;
 

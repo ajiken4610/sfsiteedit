@@ -1,5 +1,5 @@
 <template lang="pug">
-footer.mt-3.py-4.container.animatable(:class="{loading}")
+footer.mt-3.py-4.container.animatable(:class="{ loading }")
   hr
   .text-muted.text-end @サレ祭2022
 </template>
