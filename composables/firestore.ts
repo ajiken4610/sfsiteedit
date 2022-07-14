@@ -13,7 +13,7 @@ export const setProject = async (id: string | null, project: SFProject) => {
     ? doc(firestore, "draft", id)
     : doc(collection(firestore, "draft"));
   const set = {
-    project,
+    project: { ...{ pid: setInto.id }, ...project },
     bigram: projectToBigramObject(project),
     uid: useUser().uid,
   };

@@ -1,5 +1,7 @@
 <template lang="pug">
-.form-container
+.form-container(
+  :class="{ 'not-editable': !(props.editable || useRoute().query.admin) }"
+)
   Head
     Title {{ data.title || "Editor" }}
   div
@@ -65,9 +67,28 @@
 import { onBeforeRouteLeave } from "vue-router";
 import getYoutubeThumbnailUrl from "~~/composables/getYoutubeThumbnailUrl";
 import { SFProject } from "~~/composables/SFProject";
-const props = defineProps<{ project: SFProject; id: string }>();
-const data = ref(props.project);
 const VSelect = useVSelect();
+const props = withDefaults(
+  defineProps<{ project: SFProject; id: string; editable?: boolean }>(),
+  { editable: true }
+);
+watch(
+  props,
+  () => {
+    if (props.editable || useRoute().query.admin) {
+    } else {
+      console.log(props.editable);
+      showToast({
+        title: "権限なし",
+        body: "あなたはこの企画のオーナーではないため、変更を加えることはできません。",
+      });
+    }
+  },
+  { deep: true, immediate: true }
+);
+
+const data = ref(props.project);
+
 const searchingText = ref("");
 function onTagTextInput(search: string) {
   searchingText.value = search;
@@ -130,23 +151,20 @@ const saveData = async () => {
     savingData.value = true;
     if (isSaved.value) {
       if (confirm("企画を提出しますか？\n再提出することも可能です。")) {
-        await submitProject(props.id, {
-          ...{ pid: useRoute().params.id.toString() },
-          ...data.value,
-        });
+        await submitProject(props.id, data.value);
         showToast({ title: "提出完了", body: "企画は正常に提出されました。" });
       }
     } else {
-      await setProject(props.id, {
-        ...{ pid: useRoute().params.id.toString() },
-        ...data.value,
-      });
+      await setProject(props.id, data.value);
       isSaved.value = true;
       showToast({ title: "保存完了", body: "企画は正常に保存されました。" });
     }
   } catch (e) {
     console.error(e);
-    showToast({ title: "エラー", body: "企画データの変更に失敗しました。" });
+    showToast({
+      title: "エラー",
+      body: "企画データの変更に失敗しました。権限がない可能性があります。",
+    });
   } finally {
     savingData.value = false;
   }
@@ -156,5 +174,14 @@ const saveData = async () => {
 <style scoped lang="scss">
 .form-container > :not(:last-child) {
   margin-bottom: 1rem;
+}
+
+.form-container.not-editable:deep(*) {
+  pointer-events: none;
+}
+.form-container.not-editable::before {
+  content: "編集権限がありません";
+  color: red;
+  font-size: 2rem;
 }
 </style>

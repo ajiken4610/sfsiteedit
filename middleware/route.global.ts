@@ -15,6 +15,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     return navigateTo({ path: "/login", query: { redirect: to.fullPath } });
   } else if (to.path === "/new") {
     const docId = await setProject(null, {});
+    showToast({ title: "新規企画", body: "新しい企画が作成されました。" });
     return navigateTo({ path: "/editor/" + docId });
   }
 });

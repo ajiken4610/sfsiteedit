@@ -21,7 +21,7 @@
         PartsMarkdownViewer.card-text.description(
           :src="props.project.description || ''"
         )
-      NuxtLink.stretched-link(:to="'/editor/' + props.project.pid")
+      NuxtLink.stretched-link(:to="'/preview/' + props.project.pid")
 </template>
 
 <script setup lang="ts">

@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   h1 サレ祭サイト投稿
-  div(v-if="useIsLoggedIn()") 
+  div(v-if="useIsLoggedIn().value") 
     div ボタンから新しい企画を作成します。
     NuxtLink.btn.btn-primary(to="/new") 新しい企画を作成
     div ログアウトするには下をクリックします。

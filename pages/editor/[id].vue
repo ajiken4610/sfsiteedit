@@ -10,10 +10,11 @@ div
         .ms-auto.text-end
           NuxtLink.btn.btn-primary(:to="'/preview/' + route.params.id") 企画プレビューを表示
       .text-danger.lead このページをブックマークしてください！URLを紛失すると二度と開けません！
-      .text-muted このページはあなた({{ useUser().email }})と管理者以外には開けません。
+      .text-muted このページはあなた({{ useUser().email }})だけが編集できます。
     PartsProjectEditor(
       :project="data.project",
-      :id="route.params.id.toString()"
+      :id="route.params.id.toString()",
+      :editable="data.uid === useUser().uid"
     )
 </template>
 
