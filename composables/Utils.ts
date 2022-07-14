@@ -52,7 +52,8 @@ export class BiGram {
     } else {
       let returnObject: { [key: string]: true } = {};
       for (let i = 0; i < text.length - 1; i++) {
-        returnObject[text.substring(i, i + 2)] = true;
+        const current = text.substring(i, i + 2);
+        if (!current.match(/[\.\[\]\*`]/)) returnObject[current] = true;
       }
       return returnObject;
     }
@@ -67,7 +68,6 @@ export class BiGram {
     let returnObject = {};
     if (separators) {
       array.forEach((text) => {
-        console.log(text);
         Object.assign(
           returnObject,
           this.createBiGramObjectFromTexts(this.splitBy(text, separators))
@@ -78,6 +78,7 @@ export class BiGram {
         Object.assign(returnObject, this.createBiGramObject(text));
       });
     }
+
     return returnObject;
   }
 

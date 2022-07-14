@@ -1,7 +1,6 @@
 <template lang="pug">
 NuxtLayout
   NuxtPage.my-4.container(key="content")
-
 </template>
 <script setup lang="ts">
 import "bootstrap";
@@ -23,12 +22,20 @@ useHead({
     return titleChunk ? `${titleChunk} | SF Edit` : "Salesio Festa Editor";
   },
 });
+router.onError((error) => {
+  console.log("Routing error:", error);
+  alert(
+    "ページルーティング時にエラーが発生しました。\nページを再読み込みしてください。"
+  );
+  window.location.reload();
+});
 </script>
 
 <style lang="scss">
 @import "highlight.js/scss/github-dark.scss";
 @import "firebaseui";
 
+@import "bootstrap/scss/functions";
 // Default variable overrides
 $light: #dddddd;
 $dark: #181b2c;
@@ -46,8 +53,8 @@ $modal-content-bg: $body-bg;
 $modal-content-color: $body-color;
 
 $toast-header-color: $body-color;
-$toast-background-color: rgba(black, 0.85);
-$toast-header-background-color: rgba(black, 0.85);
+$toast-background-color: rgba(black, 0.5);
+$toast-header-background-color: rgba(black, 0.1);
 
 $btn-close-color: $body-color;
 
@@ -69,7 +76,7 @@ $card-height: 100%;
   --vs-dropdown-option--active-bg: #2d3353;
   --vs-dropdown-option--active-color: #ffffff;
 }
-@import "../node_modules/bootstrap/scss/bootstrap";
+@import "bootstrap/scss/bootstrap";
 
 @import "vue-select/dist/vue-select.css";
 

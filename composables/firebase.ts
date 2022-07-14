@@ -39,7 +39,7 @@ let authLoaded = false;
 const auth = getAuth();
 export const useAuth = () => auth;
 export const useUser = () => auth.currentUser;
-export const isLogined = (): Promise<boolean> => {
+export const isLoggedIn = (): Promise<boolean> => {
   if (authLoaded) {
     return new Promise((resolve) => {
       resolve(!!auth.currentUser);
@@ -54,9 +54,10 @@ export const isLogined = (): Promise<boolean> => {
     });
   }
 };
-let isLoginedNotAsync: boolean = null;
+
 auth.onAuthStateChanged((user) => {
-  isLoginedNotAsync = !!user;
+  const isLoggedInNotAsync = useState("isLoggedInNotAsync", () => null);
+  isLoggedInNotAsync.value = !!user;
   if (user) {
     showToast({
       title: "ログイン",
@@ -66,10 +67,14 @@ auth.onAuthStateChanged((user) => {
     showToast({ title: "情報", body: "ログインしていません。" });
   }
 });
-export const useIsLogined = () => isLoginedNotAsync;
+export const useIsLoggedIn = () => useState("isLoggedInNotAsync", () => null);
 
 import * as firebaseui from "firebaseui";
 
 const ui = new firebaseui.auth.AuthUI(auth);
 
 export const useAuthUI = () => ui;
+
+import { getFirestore } from "firebase/firestore";
+
+export const useFirestore = () => getFirestore(app);

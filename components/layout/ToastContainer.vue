@@ -28,6 +28,9 @@ withDefaults(
 </script>
 
 <style scoped lang="scss">
+.block {
+  pointer-events: none;
+}
 .block.align-not-start {
   right: auto;
 }

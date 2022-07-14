@@ -18,7 +18,6 @@ const subtitleOrTime = computed(
     props.subtitle ||
     (() => {
       const date = new Date();
-      console.log(date);
       return (
         date.getHours() +
         "時" +
@@ -30,3 +29,9 @@ const subtitleOrTime = computed(
     })()
 );
 </script>
+
+<style scoped lang="scss">
+.toast {
+  pointer-events: none;
+}
+</style>

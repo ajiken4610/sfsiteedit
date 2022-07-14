@@ -1,21 +1,27 @@
 <template lang="pug">
-.card.project-card.bg-dark.border-secondary.overflow-hidden(
-    :class="{horizontal:responsiveHorizontal,vertical:!responsiveHorizontal}"
-  )
-  div(:class="{'row g-0 h-100':responsiveHorizontal}")
-    div.position-relative(:class="{'col-4 h-100':responsiveHorizontal}")
-      img.card-img-top(v-if="props.project.thumbnail" :src="props.project.thumbnail")
+.card.project-card.bg-transparent.border-secondary.overflow-hidden(
+  :class="{ horizontal: responsiveHorizontal, vertical: !responsiveHorizontal }"
+)
+  div(:class="{ 'row g-0 h-100': responsiveHorizontal }")
+    .position-relative(:class="{ 'col-4 h-100': responsiveHorizontal }")
+      img.card-img-top(
+        v-if="props.project.thumbnail",
+        :src="props.project.thumbnail"
+      )
       .no-thumbnail(v-else)
-        svg(height="100%" width="100%")
-          rect(width="100%" height="100%" fill="#888")
-          text(x="50%" y="50%" dy=".4em" text-anchor="middle") No thumbnail
-    div(:class="{'col-8 d-table':responsiveHorizontal}")
-      .card-body(:class="{'d-table-cell align-middle':responsiveHorizontal}")
+        svg(height="100%", width="100%")
+          rect(width="100%", height="100%", fill="#888")
+          text(x="50%", y="50%", dy=".4em", text-anchor="middle") No thumbnail
+    div(:class="{ 'col-8 d-table': responsiveHorizontal }")
+      .card-body(
+        :class="{ 'd-table-cell align-middle': responsiveHorizontal }"
+      )
         .h6.card-title(v-html="props.project.title")
-        .fs-light.text-muted.card-subtitle {{props.project.owner}}
-        MarkdownViewer(:src="props.project.description").card-text.description
-      NuxtLink.stretched-link(to="/")
-
+        .fs-light.text-muted.card-subtitle {{ props.project.owner }}
+        PartsMarkdownViewer.card-text.description(
+          :src="props.project.description || ''"
+        )
+      NuxtLink.stretched-link(:to="'/editor/' + props.project.pid")
 </template>
 
 <script setup lang="ts">
@@ -88,7 +94,8 @@ onUnmounted(() => {
   }
 }
 
-.card-img-top {
+.card-img-top,
+.no-thumbnail {
   object-fit: cover;
   height: 8rem;
   //filter: blur(1px);

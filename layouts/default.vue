@@ -34,13 +34,6 @@ router.afterEach(() => {
     loading.value = false;
   }, 1000);
 });
-router.onError((error) => {
-  console.log("Routing error:", error);
-  alert(
-    "ページルーティング時にエラーが発生しました。\nページを再読み込みしてください。"
-  );
-  window.location.reload();
-});
 </script>
 
 <style lang="scss">

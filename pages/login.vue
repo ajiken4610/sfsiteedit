@@ -16,7 +16,7 @@ onMounted(() => {
       GoogleAuthProvider.PROVIDER_ID,
       EmailAuthProvider.PROVIDER_ID,
     ],
-    signInSuccessUrl: "/new",
+    signInSuccessUrl: useRoute().query.redirect?.toString?.() || "/",
   });
 });
 </script>

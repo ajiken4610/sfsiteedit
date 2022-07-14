@@ -1,21 +1,25 @@
 import { BiGram } from "./Utils";
 
-export function toStrict(self: SFProject): StrictSFProject {
+export function toStrictProject(self: SFProject): StrictSFProject {
   return { ...DefaultSFProject, ...self };
 }
 
-export function toBigramArray(self: StrictSFProject) {
-  return BiGram.createBiGramArrayFromTexts(
-    [self.title, self.description, self.owner, ...self.tags],
-    " 　"
-  );
+export function projectToBigramArray(self: SFProject) {
+  let texts: string[] = [];
+  for (const prop of ["title", "description", "owner"]) {
+    if (self[prop]) texts.push(self[prop]);
+  }
+  if (self.tags) texts = texts.concat(self.tags);
+  return BiGram.createBiGramArrayFromTexts(texts, " 　");
 }
 
-export function toBigramObject(self: StrictSFProject) {
-  return BiGram.createBiGramObjectFromTexts(
-    [self.title, self.description, self.owner, ...self.tags],
-    " 　"
-  );
+export function projectToBigramObject(self: SFProject) {
+  let texts: string[] = [];
+  for (const prop of ["title", "description", "owner"]) {
+    if (self[prop]) texts.push(self[prop]);
+  }
+  if (self.tags) texts = texts.concat(self.tags);
+  return BiGram.createBiGramObjectFromTexts(texts, " 　");
 }
 
 export class SFProject {
@@ -27,6 +31,7 @@ export class SFProject {
   thumbnail?: string;
   ratio?: string;
   tags?: string[];
+  pid?: string;
   static toString(self: SFProject) {
     return encodeURIComponent(JSON.stringify(self));
   }
@@ -46,6 +51,7 @@ export interface StrictSFProject extends SFProject {
   thumbnail: string;
   ratio: string;
   tags: string[];
+  pid: string;
 }
 
 export class DefaultSFProject {
@@ -57,4 +63,5 @@ export class DefaultSFProject {
   static thumbnail = "";
   static ratio = "";
   static tags = [];
+  static pid = "";
 }
