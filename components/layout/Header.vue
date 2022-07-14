@@ -1,7 +1,7 @@
 <template lang="pug">
 nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.shadow-lg
   .container-fluid
-    NuxtLink.navbar-brand(to="/") SF Site Preview
+    NuxtLink.navbar-brand(to="/") SF Site Edit
     button.navbar-toggler(
       type="button",
       data-bs-toggle="collapse",
