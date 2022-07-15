@@ -50,24 +50,25 @@ setTimeout(() => {
 const project = computed(() => toStrictProject(data.value?.project));
 
 const route = useRoute();
-const { pending, data } = useLazyAsyncData(
-  route.params.id.toString(),
-  async () => {
-    try {
-      const snapshot = await getDoc(
-        doc(useFirestore(), "draft", route.params.id.toString())
-      );
-      return snapshot.data() as SFProjectData;
-    } catch (e) {
-      console.error(e);
-      showToast({
-        title: "エラー",
-        body: "プロジェクトは存在しないか、アクセスする権限がありません。",
-      });
-      useRouter().replace({ path: "/404", query: { path: route.fullPath } });
-    }
+const { pending, data } = useLazyAsyncData(route.fullPath, async () => {
+  try {
+    const snapshot = await getDoc(
+      doc(
+        useFirestore(),
+        route.query.submitted === "true" ? "project" : "draft",
+        route.params.id.toString()
+      )
+    );
+    return snapshot.data() as SFProjectData;
+  } catch (e) {
+    console.error(e);
+    showToast({
+      title: "エラー",
+      body: "プロジェクトは存在しないか、アクセスする権限がありません。",
+    });
+    useRouter().replace({ path: "/404", query: { path: route.fullPath } });
   }
-);
+});
 
 const defaultRatio = computed(
   () =>
