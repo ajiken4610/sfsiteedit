@@ -59,7 +59,7 @@ const sanitizeHtmlOptions = {
       h5: ["id"],
       h6: ["id"],
       "*": ["data-bs-toggle", "data-bs-target"],
-      iframe: ["src", "allowfullscreen", "allow"],
+      iframe: ["src", "-src", "allowfullscreen", "allow"],
     },
   },
   allowedClasses: {
@@ -119,7 +119,7 @@ function parsePlaneMarkdown(src: string) {
         const youtubeId = splitted[0];
         modalIdValue[
           modalIdInnerSlug
-        ] = `<div class="youtube-frame"><iframe src="https://youtube.com/embed/${youtubeId}?enablejsapi=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+        ] = `<div class="youtube-frame"><iframe -src="https://youtube.com/embed/${youtubeId}?enablejsapi=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
         ret = `<div class="youtube-thumbnail-wrapper"><img class="youtube-thumbnail" data-bs-toggle="modal" data-bs-target="#${modalIdInnerSlug}" src="${getYoutubeThumbnailUrl(
           youtubeId,
           true

@@ -2664,6 +2664,13 @@ firebase@*, firebase@^9.9.0:
     "@firebase/storage-compat" "0.1.17"
     "@firebase/util" "1.6.3"
 
+firebaseui-ja@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/firebaseui-ja/-/firebaseui-ja-1.0.0.tgz#404b02779ecfea8a7109b5cfc0615019d712e805"
+  integrity sha512-mAnLnyleYZVcEP9PDejWa1iGQZxqwEnesMJcR2lecUASF/Th5uBMpsMBC5jxNevb0Gj85D39TXCKbmL82gf5CQ==
+  dependencies:
+    dialog-polyfill "^0.4.7"
+
 firebaseui@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/firebaseui/-/firebaseui-6.0.1.tgz#bdabc69de9c245975a1277d507b2f0ff0044e558"

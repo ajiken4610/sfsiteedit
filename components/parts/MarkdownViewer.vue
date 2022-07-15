@@ -3,11 +3,16 @@
   .markdown-viewer(v-html="parsedHtml")
   Teleport(to="body")
     template(v-for="currentModalIdValue in modalIdValue")
-      .markdown-viewer-modal.modal.fade(v-for="(value,modalKey) in currentModalIdValue" :id="modalKey.toString()" area-hidden="true" tabindex="-1")
+      .markdown-viewer-modal.modal.fade(
+        v-for="(value, modalKey) in currentModalIdValue",
+        :id="modalKey.toString()",
+        area-hidden="true",
+        tabindex="-1"
+      )
         .modal-dialog.modal-xl.modal-dialog-centered
           .modal-content
             .modal-header
-              button.btn.btn-close(data-bs-dismiss="modal" area-label="Close")
+              button.btn.btn-close(data-bs-dismiss="modal", area-label="Close")
             .modal-body.d-table(v-html="value")
 </template>
 
@@ -44,10 +49,35 @@ document.addEventListener(
       if (el.matches(".markdown-viewer-modal.modal")) {
         el.querySelectorAll(".youtube-frame iframe").forEach((element) => {
           if (element instanceof HTMLIFrameElement) {
-            element.contentWindow?.postMessage(
-              '{"event":"command", "func":"pauseVideo", "args":null}',
-              "*"
-            );
+            // element.contentWindow?.postMessage(
+            //   '{"event":"command", "func":"pauseVideo", "args":null}',
+            //   "*"
+            // );
+            element.attributes.getNamedItem("src").value = "";
+          }
+        });
+        break;
+      }
+      el = el.parentNode as HTMLElement;
+    }
+  },
+  false
+);
+
+document.addEventListener(
+  "hide.bs.modal",
+  (e) => {
+    let el = e.target as HTMLElement;
+    while (el && !el.matches("body")) {
+      if (el.matches(".markdown-viewer-modal.modal")) {
+        el.querySelectorAll(".youtube-frame iframe").forEach((element) => {
+          if (element instanceof HTMLIFrameElement) {
+            // element.contentWindow?.postMessage(
+            //   '{"event":"command", "func":"pauseVideo", "args":null}',
+            //   "*"
+            // );
+            element.attributes.getNamedItem("src").value =
+              element.attributes.getNamedItem("-src").value;
           }
         });
         break;

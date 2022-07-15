@@ -147,27 +147,17 @@ onUnmounted(() => {
 });
 const savingData = ref(false);
 const saveData = async () => {
-  try {
-    savingData.value = true;
-    if (isSaved.value) {
-      if (confirm("企画を提出しますか？\n再提出することも可能です。")) {
-        await submitProject(props.id, data.value);
-        showToast({ title: "提出完了", body: "企画は正常に提出されました。" });
-      }
-    } else {
-      await setProject(props.id, data.value);
-      isSaved.value = true;
-      showToast({ title: "保存完了", body: "企画は正常に保存されました。" });
+  savingData.value = true;
+  if (isSaved.value) {
+    if (confirm("企画を提出しますか？\n再提出することも可能です。")) {
+      await submitProject(props.id, data.value);
     }
-  } catch (e) {
-    console.error(e);
-    showToast({
-      title: "エラー",
-      body: "企画データの変更に失敗しました。権限がない可能性があります。",
-    });
-  } finally {
-    savingData.value = false;
+  } else {
+    await setProject(props.id, data.value);
+    isSaved.value = true;
   }
+
+  savingData.value = false;
 };
 </script>
 
