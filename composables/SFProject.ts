@@ -79,3 +79,9 @@ export class DefaultSFProject {
   static tags = [];
   static pid = "";
 }
+
+export class Owner {
+  name: string;
+  description: string;
+  parent: string | null;
+}

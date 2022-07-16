@@ -1,4 +1,5 @@
-import { collection, doc, FirestoreError, setDoc } from "@firebase/firestore";
+import { collection, doc, getDoc, setDoc } from "@firebase/firestore";
+import routeGlobal from "~~/middleware/route.global";
 import { SFProject } from "./SFProject";
 
 export class SFProjectData {
@@ -51,4 +52,97 @@ export const submitProject = async (id: string | null, project: SFProject) => {
     });
   }
   return setInto.id;
+};
+
+const ownerDoc = doc(useFirestore(), "owner", "root");
+
+export const newOwner = async () => {
+  const id = Math.random().toString().substring(2);
+  const data = {};
+  data[id] = {};
+  try {
+    await setDoc(ownerDoc, data, { merge: true });
+  } catch (e) {
+    console.error(e);
+    showToast({
+      title: "エラー",
+      body: "新しい所属の作成に失敗しました。",
+    });
+  }
+  return id;
+};
+
+export const setOwner = async (id: string, saveData) => {
+  const data = {};
+  data[id] = saveData;
+  try {
+    await setDoc(ownerDoc, data, { merge: true });
+    showToast({
+      title: "保存完了",
+      body: "所属データの保存が完了しました。",
+    });
+  } catch (e) {
+    console.error(e);
+    showToast({
+      title: "エラー",
+      body: "所属の保存に失敗しました。",
+    });
+  }
+};
+
+export const getOwner = async () => {
+  try {
+    const data = getDoc(ownerDoc);
+
+    return data;
+  } catch (e) {
+    console.error(e);
+    showToast({
+      title: "エラー",
+      body: "所属データの取得に失敗しました。",
+    });
+  }
+};
+
+export const parentRefDataToChildRefData = (data: {
+  [key: string]: { parent: string };
+}) => {
+  const copy = { ...data };
+  interface Ret {
+    childs?: { [key: string]: Ret };
+    parent?: string;
+  }
+  const ret: Ret = {};
+  const solved: { [key: string]: string[] } = {};
+  let solvedCount = 1;
+  while (solvedCount) {
+    solvedCount = 0;
+    for (const key in copy) {
+      const current = copy[key];
+      const parentName = current.parent;
+      if (!parentName) {
+        ret[key] = current;
+        solved[key] = [];
+        delete copy[key];
+        solvedCount++;
+      } else if (parentName in solved) {
+        let parent = ret;
+        for (const route of solved[parentName]) {
+          parent = parent[route].childs;
+        }
+        parent = parent[parentName];
+        solved[key] = [...solved[parentName], parentName];
+        if (parent.childs) {
+          parent.childs[key] = current;
+        } else {
+          const childs = {};
+          childs[key] = current;
+          parent.childs = childs;
+        }
+        delete copy[key];
+        solvedCount++;
+      }
+    }
+  }
+  return ret;
 };

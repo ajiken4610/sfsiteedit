@@ -17,5 +17,9 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const docId = await setProject(null, {});
     showToast({ title: "新規企画", body: "新しい企画が作成されました。" });
     return navigateTo({ path: "/editor/" + docId });
+  } else if (to.path === "/new-owner") {
+    const ownerId = await newOwner();
+    showToast({ title: "新規組織", body: "新しい組織が作成されました。" });
+    return navigateTo({ path: "/owner/" + ownerId });
   }
 });

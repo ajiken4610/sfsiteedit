@@ -13,7 +13,12 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.shadow-lg
       span.navbar-toggler-icon
     #navbarSupportedContent.collapse.navbar-collapse
       ul.navbar-nav.me-auto.mb-2.mb-lg-0
-        li.nav-item
-          NuxtLink.nav-link(v-if="useIsLoggedIn()", to="/new") New project &gt;&gt;&gt;
-          NuxtLink.nav-link(v-else, to="/login") Login &gt;&gt;&gt;
+        template(v-if="useIsLoggedIn()")
+          li.nav-item
+            NuxtLink.nav-link(to="/new") New project &gt;&gt;&gt;
+          li.nav-item
+            NuxtLink.nav-link(to="/new-owner") New Owner &gt;&gt;&gt;
+        template(v-else)
+          li.nav-item
+            NuxtLink.nav-link(to="/login") Login &gt;&gt;&gt;
 </template>

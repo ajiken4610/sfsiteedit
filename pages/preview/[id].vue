@@ -56,7 +56,7 @@ const project = computed(() => toStrictProject(data.value?.project));
 
 const route = useRoute();
 const { pending, data } = useLazyAsyncData(
-  route.fullPath + new Date(),
+  route.fullPath + route.query.submitted === "true" ? "-project" : "",
   async () => {
     try {
       const snapshot = await getDoc(
