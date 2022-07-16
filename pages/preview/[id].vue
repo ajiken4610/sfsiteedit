@@ -14,6 +14,11 @@ div
     )
   .display-1.text-center(v-if="pending") Loading...
   .project-wrapper(v-else)
+    .title-owner-wrapper(v-if="project.type !== 'youtube'")
+      h1(v-html="project.title")
+      span.text-muted.tag(v-if="project.tags", v-for="tag in project.tags") {{ "#" + tag }}
+      PartsShareButton.float-end
+      .text-muted {{ project.owner }}
     .iframe-wrapper(v-if="project.type !== 'none'")
       img(v-if="project.thumbnail", :src="project.thumbnail")
       .position-absolute.d-table.h-100.w-100 
@@ -25,7 +30,7 @@ div
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
         allowfullscreen
       )
-    .title-owner-wrapper
+    .title-owner-wrapper(v-if="project.type === 'youtube'")
       span.text-muted.tag(v-if="project.tags", v-for="tag in project.tags") {{ "#" + tag }}
       .h5(v-html="project.title")
       PartsShareButton.float-end

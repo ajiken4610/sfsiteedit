@@ -1,7 +1,7 @@
 <template lang="pug">
 .markdown-viewer-wrapper
-  .table-of-contents
-    .h4.dropdown.dropdown-toggle(data-bs-toggle="dropdown") 目次
+  button.float-end.btn.btn-outline-light.table-of-contents
+    .dropdown.dropdown-toggle(data-bs-toggle="dropdown") 目次
     .dropdown-menu
       PartsTableOfContents(:table="tableOfContents")
   .markdown-viewer(v-html="parsedHtml")

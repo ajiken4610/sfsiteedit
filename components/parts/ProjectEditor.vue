@@ -55,11 +55,20 @@
     )
   .d-flex
     button.btn.btn-outline-danger.px-4(@click="resetData") リセット
-    button.btn.btn-primary.px-4.ms-auto(
+    button.btn.btn-primary.ms-auto(
       @click="saveData",
       :class="{ disabled: savingData }"
     )
-      .spinner-border-sm(v-if="savingData")
+      .spinner-border.spinner-border-sm(v-if="savingData")
+      template(v-else-if="!isSaved") 保存
+      template(v-else) 提出
+
+  .position-fixed.bottom-0.start-50.p-4.translate-middle-x
+    button.btn.btn-primary.px-4(
+      @click="saveData",
+      :class="{ disabled: savingData }"
+    )
+      .spinner-border.spinner-border-sm(v-if="savingData")
       template(v-else-if="!isSaved") 保存
       template(v-else) 提出
 </template>

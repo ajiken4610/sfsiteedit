@@ -3,10 +3,12 @@ div(v-for="current in showList")
   .ms-2(v-if="current.isChild")
     PartsTableOfContents(
       :table="current.child",
-      :prefix="(prefix || '') + current.index + '. '"
+      :prefix="(prefix || '') + current.index + '.'"
     )
   a(v-else, :href="'#' + current.id")
-    .dropdown-item {{ (prefix ? prefix : "") + (current.index + 1) }}. {{ current.name }}
+    .dropdown-item(
+      v-html="(prefix ? prefix : '') + (current.index + 1) + '. ' + current.name"
+    )
 </template>
 <script setup lang="ts">
 import { TableOfContents } from "~/composables/parseMarkdown";
