@@ -48,6 +48,7 @@ const sanitizeHtmlOptions = {
     "del",
     "button",
     "iframe",
+    "iframe-hidden",
   ]),
   allowedAttributes: {
     ...sanitizeHtml.defaults.allowedAttributes,
@@ -59,13 +60,14 @@ const sanitizeHtmlOptions = {
       h5: ["id"],
       h6: ["id"],
       "*": ["data-bs-toggle", "data-bs-target"],
-      iframe: ["src", "-src", "allowfullscreen", "allow"],
+      iframe: ["src", "allowfullscreen", "allow"],
+      "iframe-hidden": ["src", "allowfullscreen", "allow"],
     },
   },
   allowedClasses: {
     "*": ["hljs-*"],
     table: ["table"],
-    div: ["table-responsive", "youtube-frame", "youtube-thumbnail-wrapper"],
+    div: ["*"],
     a: ["*"],
     button: ["*"],
     img: ["youtube-thumbnail"],
@@ -119,7 +121,7 @@ function parsePlaneMarkdown(src: string) {
         const youtubeId = splitted[0];
         modalIdValue[
           modalIdInnerSlug
-        ] = `<div class="youtube-frame"><iframe -src="https://youtube.com/embed/${youtubeId}?enablejsapi=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+        ] = `<div class="youtube-frame"><div><div class="display-1">Loading...</div></div><iframe-hidden src="https://youtube.com/embed/${youtubeId}?enablejsapi=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
         ret = `<div class="youtube-thumbnail-wrapper"><img class="youtube-thumbnail" data-bs-toggle="modal" data-bs-target="#${modalIdInnerSlug}" src="${getYoutubeThumbnailUrl(
           youtubeId,
           true

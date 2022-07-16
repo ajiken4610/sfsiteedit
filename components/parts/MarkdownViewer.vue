@@ -40,9 +40,27 @@ document.addEventListener(
   },
   false
 );
+const replaceTagName = (target: Element, tagName: string): Element => {
+  if (!target.parentNode) {
+    return target;
+  }
 
+  const replacement = document.createElement(tagName);
+  Array.from(target.attributes).forEach((attribute) => {
+    const { nodeName, nodeValue } = attribute;
+    if (nodeValue) {
+      replacement.setAttribute(nodeName, nodeValue);
+    }
+  });
+  Array.from(target.childNodes).forEach((node) => {
+    replacement.appendChild(node);
+  }); // For some reason, only textNodes are appended
+  // without converting childNodes to Array.
+  target.parentNode.replaceChild(replacement, target);
+  return replacement;
+};
 document.addEventListener(
-  "hide.bs.modal",
+  "hidden.bs.modal",
   (e) => {
     let el = e.target as HTMLElement;
     while (el && !el.matches("body")) {
@@ -53,7 +71,7 @@ document.addEventListener(
             //   '{"event":"command", "func":"pauseVideo", "args":null}',
             //   "*"
             // );
-            element.attributes.getNamedItem("src").value = "";
+            replaceTagName(element, "iframe-hidden");
           }
         });
         break;
@@ -65,21 +83,20 @@ document.addEventListener(
 );
 
 document.addEventListener(
-  "hide.bs.modal",
+  "show.bs.modal",
   (e) => {
     let el = e.target as HTMLElement;
     while (el && !el.matches("body")) {
       if (el.matches(".markdown-viewer-modal.modal")) {
-        el.querySelectorAll(".youtube-frame iframe").forEach((element) => {
-          if (element instanceof HTMLIFrameElement) {
+        el.querySelectorAll(".youtube-frame iframe-hidden").forEach(
+          (element) => {
             // element.contentWindow?.postMessage(
             //   '{"event":"command", "func":"pauseVideo", "args":null}',
             //   "*"
             // );
-            element.attributes.getNamedItem("src").value =
-              element.attributes.getNamedItem("-src").value;
+            replaceTagName(element, "iframe");
           }
-        });
+        );
         break;
       }
       el = el.parentNode as HTMLElement;
@@ -148,21 +165,38 @@ onMounted(() => {
 .markdown-viewer:deep(img) {
   display: block;
   width: v-bind("fullWidth?'100%':'75%'");
-  margin: auto;
+  margin: 1rem auto;
   border-radius: 5px;
   object-fit: cover;
 }
 
 .markdown-viewer:deep(img.youtube-thumbnail) {
   aspect-ratio: 16/9;
+  margin: 1rem auto;
 }
 .modal-body:deep(.youtube-frame) {
   display: table-cell;
   vertical-align: middle;
+  position: relative;
 }
+
 .modal-body:deep(.youtube-frame > iframe) {
-  width: 100%;
+  z-index: 1065;
+  position: relative;
   aspect-ratio: 16/9;
+  width: 100%;
+}
+.modal-body:deep(.youtube-frame > div) {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #888;
+  text-align: center;
+  display: table;
+}
+.modal-body:deep(.youtube-frame > div > div) {
+  display: table-cell;
+  vertical-align: middle;
 }
 .markdown-viewer:deep(div.youtube-thumbnail-wrapper) {
   position: relative;
