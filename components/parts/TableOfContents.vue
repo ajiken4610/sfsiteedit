@@ -14,10 +14,6 @@ div(v-for="current in showList")
 import { TableOfContents } from "~/composables/parseMarkdown";
 const props = defineProps<{ table: TableOfContents[]; prefix?: string }>();
 
-const tagName = (isChild) => {
-  return isChild ? "ul" : "ol";
-};
-
 const showList = computed(() => {
   if (props.table.length > 0) {
     const ret: (

@@ -13,7 +13,7 @@ router.beforeEach((to, from, next) => {
   } else {
     synchronizer.synchronized(async () => {
       next();
-      await Sleeper.sleep(2000);
+      await Sleeper.sleep(800);
     });
   }
 });

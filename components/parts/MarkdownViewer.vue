@@ -110,6 +110,13 @@ document.addEventListener(
   },
   false
 );
+window.addEventListener("hashchange", (e) => {
+  if (location.hash.match(/^#.*$/)) {
+    document
+      .getElementById(decodeURIComponent(location.hash.substring(1)))
+      ?.scrollIntoView(true);
+  }
+});
 </script>
 
 <script setup lang="ts">
@@ -140,7 +147,6 @@ const parsedHtml = computed(() => {
       modalIdValue: newModalIdValue,
       tableOfContents: newTableOfContents,
     } = parseMarkdown(src);
-    console.log(newTableOfContents);
     modalIdValue.value = newModalIdValue;
     tableOfContents.value = newTableOfContents;
     return (parsed[src] = result);
@@ -149,10 +155,7 @@ const parsedHtml = computed(() => {
 
 onMounted(() => {
   const hash = useRoute().hash;
-  if (hash && hash.match(/^#.+$/)) {
-    location.hash = "";
-    location.hash = hash;
-  }
+  navigateTo({ hash });
 });
 </script>
 
