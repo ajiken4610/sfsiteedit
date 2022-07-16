@@ -72,7 +72,7 @@ const sanitizeHtmlOptions = {
     button: ["*"],
     img: ["youtube-thumbnail"],
   },
-  allowedIframeHostnames: ["youtube.com"],
+  allowedIframeHostnames: ["youtube.com", "drive.google.com"],
 };
 
 let initialized = false;
@@ -126,6 +126,11 @@ function parsePlaneMarkdown(src: string) {
           youtubeId,
           true
         )}"></div>`;
+        break;
+      case "drive":
+        modalIdInnerSlug = modalIdInnerSlugger.slug(modalId.value);
+        const driveId = splitted[0];
+        ret = `<div class="drive-frame"><div><div class="display-1">Loading...</div></div><iframe src="https://drive.google.com/file/d/${driveId}/preview" allowfullscreen></iframe></div>`;
         break;
       default:
         ret = marked.Renderer.prototype.code.call(

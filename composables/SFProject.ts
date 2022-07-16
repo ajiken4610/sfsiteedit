@@ -26,7 +26,14 @@ export class SFProject {
   title?: string;
   description?: string;
   owner?: string;
-  type?: "none" | "youtube" | "drive" | "github" | "gist" | "iframe";
+  type?:
+    | "none"
+    | "youtube"
+    | "drive"
+    | "drive-raw"
+    | "github"
+    | "gist"
+    | "iframe";
   id?: string;
   thumbnail?: string;
   ratio?: string;
@@ -46,7 +53,14 @@ export interface StrictSFProject extends SFProject {
   title: string;
   description: string;
   owner: string;
-  type: "none" | "youtube" | "drive" | "github" | "gist" | "iframe";
+  type:
+    | "none"
+    | "youtube"
+    | "drive"
+    | "drive-raw"
+    | "github"
+    | "gist"
+    | "iframe";
   id: string;
   thumbnail: string;
   ratio: string;

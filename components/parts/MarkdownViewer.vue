@@ -174,27 +174,41 @@ onMounted(() => {
   aspect-ratio: 16/9;
   margin: 1rem auto;
 }
+.markdown-viewer:deep(.drive-frame) {
+  width: 100%;
+  position: relative;
+  margin: 1rem auto;
+}
 .modal-body:deep(.youtube-frame) {
   display: table-cell;
   vertical-align: middle;
   position: relative;
 }
-
 .modal-body:deep(.youtube-frame > iframe) {
+  aspect-ratio: 16/9;
+}
+.markdown-viewer:deep(.drive-frame > iframe) {
+  aspect-ratio: 1/1;
+  max-height: 90vh;
+}
+.modal-body:deep(.youtube-frame > iframe),
+.markdown-viewer:deep(.drive-frame > iframe) {
   z-index: 1065;
   position: relative;
-  aspect-ratio: 16/9;
+
   width: 100%;
+  border-radius: 5px;
 }
-.modal-body:deep(.youtube-frame > div) {
+.modal-body:deep(.youtube-frame > div),
+.markdown-viewer:deep(.drive-frame > div) {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: #888;
   text-align: center;
   display: table;
 }
-.modal-body:deep(.youtube-frame > div > div) {
+.modal-body:deep(.youtube-frame > div > div),
+.markdown-viewer:deep(.drive-frame > div > div) {
   display: table-cell;
   vertical-align: middle;
 }

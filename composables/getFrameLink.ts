@@ -9,6 +9,9 @@ export default (project: StrictSFProject) => {
     case "drive":
       ret = `https://drive.google.com/file/d/${project.id}/preview`;
       break;
+    case "drive-raw":
+      ret = `https://drive.google.com/uc?id=${project.id}`;
+      break;
     case "github":
       ret =
         "project:text/html;base64," +

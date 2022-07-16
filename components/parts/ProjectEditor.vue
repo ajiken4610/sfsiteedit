@@ -32,6 +32,7 @@
       option(value="none") 無し
       option(value="youtube") Youtube
       option(value="drive") GoogleDrive
+      option(value="drive-raw") GoogleDrive生ファイル
       option(value="github") Github
       option(value="gist") Gist
       option(value="iframe") サイト埋め込み

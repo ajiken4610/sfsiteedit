@@ -69,14 +69,15 @@ onUnmounted(() => {
 .card-body {
   margin-bottom: 0;
 }
-.description:deep(h1, h2, h3, h4, h5, h6) {
-  font-size: 100%;
+.description:deep(*) {
+  font-size: 100% !important;
 }
 .description:deep(img),
 .description:deep(pre),
 .description:deep(button),
 .description:deep(a),
-.description:deep(table) {
+.description:deep(table),
+.description:deep(iframe) {
   display: none;
 }
 
