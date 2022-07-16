@@ -1,8 +1,10 @@
 <template lang="pug">
 .markdown-viewer-wrapper
-  button.float-end.btn.btn-outline-light.table-of-contents
-    .dropdown.dropdown-toggle(data-bs-toggle="dropdown") 目次
-    .dropdown-menu
+  .table-of-contents
+    button.dropdown.dropdown-toggle.button.float-end.btn.btn-outline-light(
+      data-bs-toggle="dropdown"
+    ) 目次
+    .dropdown-menu.dropdown-menu-end
       PartsTableOfContents(:table="tableOfContents")
   .markdown-viewer(v-html="parsedHtml")
   Teleport(to="body")
@@ -155,6 +157,10 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
+.table-of-contents .dropdown-menu {
+  max-width: 100vw;
+}
+
 .modal-dialog {
   width: calc(100vw - 1rem);
   max-width: calc(177vh - 20rem);

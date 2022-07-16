@@ -6,7 +6,7 @@ div(v-for="current in showList")
       :prefix="(prefix || '') + current.index + '.'"
     )
   a(v-else, :href="'#' + current.id")
-    .dropdown-item(
+    .dropdown-item.text-truncate(
       v-html="(prefix ? prefix : '') + (current.index + 1) + '. ' + current.name"
     )
 </template>
