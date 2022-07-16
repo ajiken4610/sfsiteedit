@@ -77,7 +77,13 @@ const sanitizeHtmlOptions = {
 
 let initialized = false;
 
-function parsePlaneMarkdown(src: string) {
+export class TableOfContents {
+  name: string;
+  level: number;
+  id: string;
+}
+
+function parsePlaneMarkdown(src: string, tableOfContents: TableOfContents[]) {
   if (!initialized) {
     useRouter().afterEach(() => {
       rootSlugger = new Slugger();
@@ -145,6 +151,7 @@ function parsePlaneMarkdown(src: string) {
   renderer.heading = (text, level, raw) => {
     const escapedText = text.toLowerCase().replace(/"+/g, "-");
     const id = rootSlugger.slug(slugger.slug(escapedText));
+    tableOfContents.push({ name: text, level, id });
     return `<h${level} id="${id}"><a href="#${id}">${text}</a></h${level}>`;
   };
   return {
@@ -162,7 +169,7 @@ function parseMarkdownRecursively(
     // 中身あるなら再帰
     for (const current in src.modalIdValue) {
       src.modalIdValue[current] = parseMarkdownRecursively(
-        parsePlaneMarkdown(src.modalIdValue[current]),
+        parsePlaneMarkdown(src.modalIdValue[current], []),
         ret
       );
     }
@@ -173,11 +180,17 @@ function parseMarkdownRecursively(
 function parseMarkdown(src: string): {
   result: string;
   modalIdValue: { [key: string]: string }[];
+  tableOfContents: TableOfContents[];
 } {
-  const ret: { [key: string]: string }[] = [];
+  const modalIdValue: { [key: string]: string }[] = [];
+  const tableOfContents: TableOfContents[] = [];
   return {
-    result: parseMarkdownRecursively(parsePlaneMarkdown(src), ret),
-    modalIdValue: ret,
+    result: parseMarkdownRecursively(
+      parsePlaneMarkdown(src, tableOfContents),
+      modalIdValue
+    ),
+    modalIdValue,
+    tableOfContents,
   };
 }
 export default parseMarkdown;

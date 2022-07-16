@@ -77,7 +77,8 @@ onUnmounted(() => {
 .description:deep(button),
 .description:deep(a),
 .description:deep(table),
-.description:deep(iframe) {
+.description:deep(iframe),
+.description:deep(.table-of-contents) {
   display: none;
 }
 

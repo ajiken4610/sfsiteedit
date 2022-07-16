@@ -56,6 +56,8 @@ $toast-header-color: $body-color;
 $toast-background-color: rgba(black, 0.5);
 $toast-header-background-color: rgba(black, 0.1);
 
+$dropdown-link-color: $body-bg;
+
 $btn-close-color: $body-color;
 
 $card-height: 100%;

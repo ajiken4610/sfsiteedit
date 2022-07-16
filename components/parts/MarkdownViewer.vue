@@ -1,5 +1,9 @@
 <template lang="pug">
 .markdown-viewer-wrapper
+  .table-of-contents
+    .h4.dropdown.dropdown-toggle(data-bs-toggle="dropdown") 目次
+    .dropdown-menu
+      PartsTableOfContents(:table="tableOfContents")
   .markdown-viewer(v-html="parsedHtml")
   Teleport(to="body")
     template(v-for="currentModalIdValue in modalIdValue")
@@ -107,6 +111,7 @@ document.addEventListener(
 </script>
 
 <script setup lang="ts">
+import { TableOfContents } from "~/composables/parseMarkdown";
 const props = defineProps<{ src: string }>();
 
 const fullWidth = ref(992 > window.innerWidth);
@@ -121,14 +126,21 @@ onUnmounted(() => {
 const parsed: { [key: string]: string } = {};
 
 const modalIdValue = ref<{ [key: string]: string }[]>([{}]);
+const tableOfContents = ref<TableOfContents[]>([]);
 
 const parsedHtml = computed(() => {
   const src = props.src;
   if (src in parsed) {
     return parsed[src];
   } else {
-    const { result, modalIdValue: newModalIdValue } = parseMarkdown(src);
+    const {
+      result,
+      modalIdValue: newModalIdValue,
+      tableOfContents: newTableOfContents,
+    } = parseMarkdown(src);
+    console.log(newTableOfContents);
     modalIdValue.value = newModalIdValue;
+    tableOfContents.value = newTableOfContents;
     return (parsed[src] = result);
   }
 });
