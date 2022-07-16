@@ -29,6 +29,15 @@ router.onError((error) => {
   );
   window.location.reload();
 });
+window.addEventListener("hashchange", (e) => {
+  if (location.hash.match(/^#.*$/)) {
+    document
+      .getElementById(decodeURIComponent(location.hash.substring(1)))
+      ?.scrollIntoView(true);
+  } else {
+    window.scroll({ top: 0, behavior: "smooth" });
+  }
+});
 </script>
 
 <style lang="scss">

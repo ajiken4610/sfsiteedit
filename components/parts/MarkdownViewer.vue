@@ -110,13 +110,6 @@ document.addEventListener(
   },
   false
 );
-window.addEventListener("hashchange", (e) => {
-  if (location.hash.match(/^#.*$/)) {
-    document
-      .getElementById(decodeURIComponent(location.hash.substring(1)))
-      ?.scrollIntoView(true);
-  }
-});
 </script>
 
 <script setup lang="ts">
@@ -154,8 +147,9 @@ const parsedHtml = computed(() => {
 });
 
 onMounted(() => {
-  const hash = useRoute().hash;
-  navigateTo({ hash });
+  document
+    .getElementById(decodeURIComponent(location.hash.substring(1)))
+    ?.scrollIntoView(true);
 });
 </script>
 
