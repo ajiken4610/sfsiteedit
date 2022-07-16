@@ -39,7 +39,7 @@ router.afterEach(() => {
 <style lang="scss">
 .page-enter-active,
 .page-leave-active {
-  transition: all 0.5s ease;
+  transition: all 1s ease;
 }
 .page-enter-from,
 .page-leave-to,
