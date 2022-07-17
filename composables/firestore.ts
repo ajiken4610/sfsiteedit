@@ -77,7 +77,7 @@ export const newOwner = async () => {
 
 export const setOwner = async (id: string, saveData: Owner) => {
   const data = {};
-  if (!id) id = Math.random().toString().substring(2);
+  if (!id) id = Math.random().toString(36).substring(2);
   data[id] = { ...saveData, edited: arrayUnion(useUser().email) };
   try {
     await setDoc(ownerDoc, data, { merge: true });
