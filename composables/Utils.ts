@@ -53,7 +53,8 @@ export class BiGram {
       let returnObject: { [key: string]: true } = {};
       for (let i = 0; i < text.length - 1; i++) {
         const current = text.substring(i, i + 2);
-        if (!current.match(/[\.\[\]\*`]/)) returnObject[current] = true;
+        if (!current.match(/[\.\[\]\*\n`]/) && current.length === 2)
+          returnObject[current] = true;
       }
       return returnObject;
     }

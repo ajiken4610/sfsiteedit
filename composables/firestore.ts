@@ -4,7 +4,6 @@ import { Owner, SFProject } from "./SFProject";
 
 export class SFProjectData {
   project: SFProject;
-  bigram: string[];
   uid: string;
 }
 
@@ -15,7 +14,6 @@ export const setProject = async (id: string | null, project: SFProject) => {
     : doc(collection(firestore, "draft"));
   const set = {
     project: { ...{ pid: setInto.id }, ...project },
-    bigram: projectToBigramObject(project),
     uid: useUser().uid,
   };
   try {
@@ -38,7 +36,6 @@ export const submitProject = async (id: string | null, project: SFProject) => {
     : doc(collection(firestore, "project"));
   const set = {
     project,
-    bigram: projectToBigramObject(project),
     uid: useUser().uid,
   };
   try {
