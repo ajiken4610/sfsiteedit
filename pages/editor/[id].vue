@@ -1,5 +1,5 @@
 <template lang="pug">
-.display-1.text-center(v-if="pending || pendingOwners") Loading... {{ pending }}{{ pendingOwners }}
+.display-1.text-center(v-if="pending || pendingOwners") Loading...
 div(v-else)
   header.mb-2
     .d-lg-flex

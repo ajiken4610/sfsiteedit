@@ -18,7 +18,7 @@ div
       span.text-muted.tag(v-if="project.tags", v-for="tag in project.tags") {{ "#" + tag }}
       h1(v-html="project.title")
       PartsShareButton.float-end
-      .h5.text-muted {{ dataOwners.childRef[project.owner].name }}
+      .h5.text-muted {{ ownerName }}
     .iframe-wrapper(v-if="project.type !== 'none'")
       img(v-if="project.thumbnail", :src="project.thumbnail")
       .position-absolute.d-table.h-100.w-100 
@@ -34,7 +34,7 @@ div
       span.text-muted.tag(v-if="project.tags", v-for="tag in project.tags") {{ "#" + tag }}
       .h5(v-html="project.title")
       PartsShareButton.float-end
-      .text-muted {{ dataOwners.childRef[project.owner].name }}
+      .text-muted {{ ownerName }}
     hr
     .description-wrapper
       PartsMarkdownViewer.description(:src="project.description")
@@ -77,7 +77,9 @@ const { pending, data } = useLazyAsyncData(
     }
   }
 );
-
+const ownerName = computed(() => {
+  return getOwnerName(dataOwners.value.childRef as any, project.value.owner);
+});
 const defaultRatio = computed(
   () =>
     ({ youtube: "56.25%" }?.[project.value?.type?.toString() || ""] || "100%")

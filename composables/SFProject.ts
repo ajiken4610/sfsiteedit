@@ -1,3 +1,4 @@
+import { getName } from "domutils";
 import { BiGram } from "./Utils";
 
 export function toStrictProject(self: SFProject): StrictSFProject {
@@ -85,3 +86,17 @@ export class Owner {
   description: string;
   parent: string | null;
 }
+
+export const getOwnerName = (
+  owners: { parent: string; name: string },
+  ownerId: string,
+  offset = 0
+) => {
+  let ret: string[] = [];
+  let current = ownerId;
+  while (current) {
+    ret.unshift(owners[current].name);
+    current = owners[current].parent;
+  }
+  return ret.slice(offset).join(" ");
+};
