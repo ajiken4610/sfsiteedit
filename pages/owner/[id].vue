@@ -4,6 +4,11 @@ div
   .form-container(v-else)
     Head
       Title {{ data.childRef[route.params.id.toString()]?.name }}
+    .d-lg-flex
+      h1.title 所属ID:
+        code {{ route.params.id }}
+        span の詳細
+    .text-danger.lead このページをブックマークしてください！URLを紛失すると二度と開けません！
     div
       label.form-label(for="input-name") 所属名
       input#input-name.form-control(v-model="data.self.name")
@@ -65,7 +70,7 @@ const addSelectionToArray = (
 };
 
 const options = computed(() => {
-  const ret: { label: string; id: string }[] = [{ label: "NULL", id: null }];
+  const ret: { label: string; id: string }[] = [];
   addSelectionToArray(data.value.parentRef, ret);
   return ret;
 });

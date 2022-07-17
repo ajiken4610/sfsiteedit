@@ -1,6 +1,6 @@
 import { collection, doc, getDoc, setDoc } from "@firebase/firestore";
 import routeGlobal from "~~/middleware/route.global";
-import { SFProject } from "./SFProject";
+import { Owner, SFProject } from "./SFProject";
 
 export class SFProjectData {
   project: SFProject;
@@ -72,8 +72,9 @@ export const newOwner = async () => {
   return id;
 };
 
-export const setOwner = async (id: string, saveData) => {
+export const setOwner = async (id: string, saveData: Owner) => {
   const data = {};
+  if (!id) id = Math.random().toString().substring(2);
   data[id] = saveData;
   try {
     await setDoc(ownerDoc, data, { merge: true });
@@ -88,6 +89,25 @@ export const setOwner = async (id: string, saveData) => {
       body: "所属の保存に失敗しました。",
     });
   }
+  return id;
+};
+
+export const setOwners = async (data: { [key: string]: Owner }) => {
+  try {
+    await setDoc(ownerDoc, data, { merge: true });
+    showToast({
+      title: "保存完了",
+      body: "所属データの保存が完了しました。",
+    });
+    return true;
+  } catch (e) {
+    console.error(e);
+    showToast({
+      title: "エラー",
+      body: "所属の保存に失敗しました。",
+    });
+  }
+  return false;
 };
 
 export const getOwner = async () => {

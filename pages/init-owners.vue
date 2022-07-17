@@ -1,0 +1,99 @@
+<template lang="pug">
+div
+  h1 所属の初期化
+  .display-1.text-center(v-if="initializing") 初期化中...
+  div(v-else)
+    .form-wrapper
+      .input-group
+        template(v-for="(prefix,index) of prefixes")
+          input.form-control(v-model="prefixes[index]")
+        button.btn.btn-light(v-if="!initialized", @click="init") 所属を初期化
+        a.btn.btn-light(v-else, :href="href") CSVをダウンロード
+</template>
+
+<script lang="ts">
+function getWrapped(...wrapper: string[]) {
+  const owners = {
+    クラス企画: {
+      "1年": { A組: {}, B組: {}, C組: {}, D組: {} },
+      "2年": { A組: {}, B組: {}, C組: {}, D組: {} },
+      "3年": { A組: {}, B組: {}, C組: {}, D組: {} },
+      "4年": { A組: {}, B組: {}, C組: {}, D組: {} },
+      "5年": { A組: {}, B組: {}, C組: {}, D組: {}, E組: {}, F組: {} },
+      "6年": { A組: {}, B組: {}, C組: {}, D組: {}, E組: {}, F組: {} },
+    },
+    部活動: {},
+  };
+
+  let ret = {};
+  let inner = ret;
+  for (var i = 0; i < wrapper.length - 1; i++) {
+    inner = inner[wrapper[i]] = {};
+  }
+  inner[wrapper[wrapper.length - 1]] = owners;
+  return ret;
+}
+</script>
+<script setup lang="ts">
+import { Owner } from "~/composables/SFProject";
+if (useUser().email !== "admin@sfsiteedit.web.app") {
+  useRouter().replace("/");
+}
+const initializing = ref(false);
+const prefixes = ref(["sf", new Date().getFullYear().toString()]);
+
+const initLoop = (
+  owners: { [key: string]: any },
+  ret: { [key: string]: any },
+  retObj: { [key: string]: Owner },
+  prefix: string = "",
+  parent: string = null
+) => {
+  for (const owner in owners) {
+    const id = Math.random().toString().substring(2);
+    retObj[id] = {
+      name: owner,
+      description: owner,
+      parent: parent,
+    };
+    ret[(prefix ? prefix + " " : "") + owner] = id;
+    initLoop(
+      owners[owner],
+      ret,
+      retObj,
+      (prefix ? prefix + " " : "") + owner,
+      id
+    );
+  }
+};
+const href = ref("");
+function handleDownload(object: { [key: string]: string }) {
+  var bom = new Uint8Array([0xef, 0xbb, 0xbf]);
+  var content = "";
+  for (const key in object) {
+    content += `${key},https://sfsiteedit.web.app/owner/${object[key]}
+`;
+  }
+  var blob = new Blob([bom, content], { type: "text/csv" });
+  // @ts-ignore
+  if (window.navigator.msSaveBlob) {
+    // @ts-ignore
+    window.navigator.msSaveBlob(blob, "test.csv");
+  } else {
+    href.value = window.URL.createObjectURL(blob);
+  }
+}
+const initialized = ref(false);
+const init = async () => {
+  const ret = {};
+  const retObj = {};
+  const owners = getWrapped(...prefixes.value);
+  initializing.value = true;
+  initLoop(owners, ret, retObj);
+  if ((initialized.value = await setOwners(retObj))) {
+    handleDownload(ret);
+  }
+  initializing.value = false;
+  console.log(parentRefDataToChildRefData(retObj));
+};
+</script>
