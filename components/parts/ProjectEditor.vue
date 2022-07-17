@@ -23,8 +23,13 @@
     )
       template(#no-options) タグを入力してEnter
   div
-    label.form-label(for="input-owner") 所属
-    input#input-owner.form-control(v-model="data.owner", placeholder="一意の所属名")
+    label.form-label(for="input-parent") 所属親
+    VSelect(
+      :options="owners",
+      :reduce="(owner) => owner.id",
+      v-model="data.owner"
+    )
+      template(#no-options) 検索にマッチする親がありません。
   div
     label.form-label(for="input-type") コンテンツタイプ
     select#input-type.form-control(v-model="data.type")
@@ -79,7 +84,12 @@ import getYoutubeThumbnailUrl from "~~/composables/getYoutubeThumbnailUrl";
 import { SFProject } from "~~/composables/SFProject";
 const VSelect = useVSelect();
 const props = withDefaults(
-  defineProps<{ project: SFProject; id: string; editable?: boolean }>(),
+  defineProps<{
+    project: SFProject;
+    id: string;
+    owners: { label: string; id: string }[];
+    editable?: boolean;
+  }>(),
   { editable: true }
 );
 watch(

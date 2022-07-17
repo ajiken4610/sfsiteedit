@@ -12,13 +12,13 @@ div
       name="description",
       :content="project.description"
     )
-  .display-1.text-center(v-if="pending") Loading...
+  .display-1.text-center(v-if="pending || pendingOwners || !dataOwners") Loading...
   .project-wrapper(v-else)
     .title-owner-wrapper(v-if="project.type !== 'youtube'")
       span.text-muted.tag(v-if="project.tags", v-for="tag in project.tags") {{ "#" + tag }}
       h1(v-html="project.title")
       PartsShareButton.float-end
-      .h5.text-muted {{ project.owner }}
+      .h5.text-muted {{ dataOwners.childRef[project.owner].name }}
     .iframe-wrapper(v-if="project.type !== 'none'")
       img(v-if="project.thumbnail", :src="project.thumbnail")
       .position-absolute.d-table.h-100.w-100 
@@ -34,7 +34,7 @@ div
       span.text-muted.tag(v-if="project.tags", v-for="tag in project.tags") {{ "#" + tag }}
       .h5(v-html="project.title")
       PartsShareButton.float-end
-      .text-muted {{ project.owner }}
+      .text-muted {{ dataOwners.childRef[project.owner].name }}
     hr
     .description-wrapper
       PartsMarkdownViewer.description(:src="project.description")
@@ -81,6 +81,20 @@ const { pending, data } = useLazyAsyncData(
 const defaultRatio = computed(
   () =>
     ({ youtube: "56.25%" }?.[project.value?.type?.toString() || ""] || "100%")
+);
+const { pending: pendingOwners, data: dataOwners } = useLazyAsyncData(
+  "owners",
+  async () => {
+    const data = (await getOwner()).data();
+
+    return {
+      parentRef: parentRefDataToChildRefData(data) as {
+        [key: string]: { childs: {}; name: string; description: string };
+      },
+      childRef: data,
+      self: data[route.params.id.toString()],
+    };
+  }
 );
 </script>
 <style scoped lang="scss">

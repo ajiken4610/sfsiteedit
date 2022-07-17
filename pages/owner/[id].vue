@@ -29,6 +29,9 @@ div
       button.btn.btn-primary.px-4.ms-auto(@click="saveData")
         .spinner-border.spinner-border-sm(v-if="savingData")
         template(v-else) 保存
+    .card.card-body.bg-transparent.border-white(v-if="data.parentRef")
+      h1 構造図
+      PartsOwnerStructureView(:structure="data.parentRef")
 </template>
 
 <script setup lang="ts">
@@ -36,17 +39,16 @@ import { Owner } from "~~/composables/SFProject";
 
 const route = useRoute();
 const VSelect = useVSelect();
-const { pending, data } = useLazyAsyncData(
-  route.params.id.toString(),
-  async () => {
-    const data = (await getOwner()).data();
-    return {
-      parentRef: parentRefDataToChildRefData(data),
-      childRef: data,
-      self: data[route.params.id.toString()] as Owner,
-    };
-  }
-);
+const { pending, data } = useLazyAsyncData("owners", async () => {
+  const data = (await getOwner()).data();
+  return {
+    parentRef: parentRefDataToChildRefData(data) as {
+      [key: string]: { childs: {}; name: string; description: string };
+    },
+    childRef: data,
+    self: data[route.params.id.toString()] as Owner,
+  };
+});
 
 const savingData = ref(false);
 const saveData = async () => {

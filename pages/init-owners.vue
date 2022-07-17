@@ -3,12 +3,15 @@ div
   h1 所属の初期化
   .display-1.text-center(v-if="initializing") 初期化中...
   div(v-else)
-    .form-wrapper
+    .form-wrapper.mb-2
       .input-group
         template(v-for="(prefix,index) of prefixes")
           input.form-control(v-model="prefixes[index]")
         button.btn.btn-light(v-if="!initialized", @click="init") 所属を初期化
         a.btn.btn-light(v-else, :href="href") CSVをダウンロード
+    .card.card-body.bg-transparent.border-white(v-if="structure")
+      h1 構造図
+      PartsOwnerStructureView(:structure="structure")
 </template>
 
 <script lang="ts">
@@ -22,7 +25,51 @@ function getWrapped(...wrapper: string[]) {
       "5年": { A組: {}, B組: {}, C組: {}, D組: {}, E組: {}, F組: {} },
       "6年": { A組: {}, B組: {}, C組: {}, D組: {}, E組: {}, F組: {} },
     },
-    部活動: {},
+    部活動: {
+      文芸部: {
+        歴史班: {},
+        文芸班: {},
+      },
+      美術部: {
+        写真班: {},
+        美術班: {},
+      },
+      自然科学部: {
+        物理班: {},
+        生物班: {},
+        化学班: {},
+      },
+      ESS同好会: {},
+      吹奏楽部: {},
+      ジャグリング部: {},
+      ピアノ同好会: {},
+      軽音楽部: {},
+      鉄道模型部: {},
+      カトリック研究会: {},
+    },
+    体験授業: {},
+    運営: {
+      イベント班: {},
+      アーチ班: {},
+      装飾班: {},
+      IT班: {},
+      広報班: {},
+    },
+    委員会: {
+      生徒会: {},
+      図書: {},
+    },
+    教科: {
+      美術: {},
+      国際交流: {},
+    },
+    保護者会: {
+      キルトBee: {},
+    },
+    生配信: {
+      ライブ: {},
+      アーカイブ: {},
+    },
   };
 
   let ret = {};
@@ -84,6 +131,7 @@ function handleDownload(object: { [key: string]: string }) {
   }
 }
 const initialized = ref(false);
+const structure = ref();
 const init = async () => {
   const ret = {};
   const retObj = {};
@@ -94,6 +142,6 @@ const init = async () => {
     handleDownload(ret);
   }
   initializing.value = false;
-  console.log(parentRefDataToChildRefData(retObj));
+  console.log((structure.value = parentRefDataToChildRefData(retObj)));
 };
 </script>
