@@ -14,7 +14,6 @@ template(v-for="(value, key) in structure")
 </template>
 
 <script setup lang="ts">
-import { Owner } from "~/composables/SFProject";
 defineProps<{
   structure: {
     [key: string]: { childs: {}; name: string; description: string };
