@@ -1,4 +1,10 @@
-import { collection, doc, getDoc, setDoc } from "@firebase/firestore";
+import {
+  arrayUnion,
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+} from "@firebase/firestore";
 import routeGlobal from "~~/middleware/route.global";
 import { Owner, SFProject } from "./SFProject";
 
@@ -72,7 +78,7 @@ export const newOwner = async () => {
 export const setOwner = async (id: string, saveData: Owner) => {
   const data = {};
   if (!id) id = Math.random().toString().substring(2);
-  data[id] = saveData;
+  data[id] = { ...saveData, edited: arrayUnion(useUser().email) };
   try {
     await setDoc(ownerDoc, data, { merge: true });
     showToast({
