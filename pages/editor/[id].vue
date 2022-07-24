@@ -10,7 +10,7 @@ div(v-else)
         NuxtLink.btn.btn-primary(:to="'/preview/' + route.params.id") 企画プレビューを表示
     .text-danger.lead このページをブックマークしてください！URLを紛失すると二度と開けません！
     .text-muted このページはあなた({{ useUser().email }})だけが編集できます。
-  PartsProjectEditor(
+  LayoutProjectEditor(
     :project="data.project",
     :id="route.params.id.toString()",
     :editable="data.uid === useUser().uid",
