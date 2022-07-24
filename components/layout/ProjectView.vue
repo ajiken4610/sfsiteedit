@@ -70,4 +70,7 @@ img {
 .description > :not(:last-child) {
   margin-bottom: 1rem;
 }
+.tag:not(:first-child) {
+  padding-left: 0.25em;
+}
 </style>

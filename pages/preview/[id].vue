@@ -32,9 +32,6 @@ const { pending: pendingOwners } = useOwnersData();
 .project-wrapper > :not(:last-child) {
   margin-bottom: 1rem;
 }
-.tag:not(:first-child) {
-  padding-left: 0.25em;
-}
 .horizontal-card-wrapper > * {
   max-width: 24rem;
 }

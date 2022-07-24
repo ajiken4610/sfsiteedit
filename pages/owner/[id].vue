@@ -79,7 +79,10 @@ watch(
     }
     saveWarnTimeoutId = window.setTimeout(() => {
       if (!isSaved.value) {
-        showToast({ title: "情報", body: "変更は保存されていません。" });
+        showToast({
+          title: "情報",
+          body: "変更を保存するには保存ボタンを押してください。",
+        });
       }
     }, 6000);
   },
