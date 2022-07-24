@@ -1,6 +1,6 @@
 <template lang="pug">
 .markdown-viewer-wrapper
-  .table-of-contents
+  .table-of-contents(v-if="tableOfContents.length")
     button.dropdown.dropdown-toggle.button.float-end.btn.btn-outline-light(
       data-bs-toggle="dropdown"
     ) 目次
