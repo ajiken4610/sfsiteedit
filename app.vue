@@ -91,7 +91,7 @@ $card-height: 100%;
 
 @import "bootstrap-icons/font/bootstrap-icons.scss";
 
-@import "katex/dist/katex.css";
+@import "assets/katex.css";
 
 $custom-colors: (
   "sfsite": #181b2c,

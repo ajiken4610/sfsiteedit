@@ -9,6 +9,7 @@ div
   div(v-else)
     div 投稿するにはまずログインしてください。
     NuxtLink.btn.btn-primary(to="/login") ログイン
+  PartsMarkdownViewer(:src="'`$a=b$`'")
 </template>
 <script setup lang="ts">
 definePageMeta({ notRequireAuth: true });

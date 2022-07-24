@@ -50,6 +50,8 @@ const sanitizeHtmlOptions = {
     "button",
     "iframe",
     "iframe-hidden",
+    "svg",
+    "path",
   ]),
   allowedAttributes: {
     ...sanitizeHtml.defaults.allowedAttributes,
@@ -64,6 +66,8 @@ const sanitizeHtmlOptions = {
       iframe: ["src", "allowfullscreen", "allow"],
       "iframe-hidden": ["src", "allowfullscreen", "allow"],
       span: ["style"],
+      svg: ["*"],
+      path: ["*"],
     },
   },
   allowedClasses: {
