@@ -10,7 +10,7 @@ div(v-else)
         NuxtLink.btn.btn-primary(:to="'/preview/' + route.params.id") 企画プレビューを表示
     .text-danger.lead このページをブックマークしてください！URLを紛失すると二度と開けません！
     .text-muted このページはあなた({{ useUser().email }})だけが編集できます。
-  PartsProjectEditor(
+  LayoutProjectEditor(
     :project="data.project",
     :id="route.params.id.toString()",
     :editable="data.uid === useUser().uid",
@@ -24,38 +24,8 @@ import { doc, getDoc } from "@firebase/firestore";
 import { SFProjectData } from "~~/composables/firestore";
 
 const route = useRoute();
-const { pending, data } = useLazyAsyncData(
-  route.params.id.toString(),
-  async () => {
-    try {
-      const snapshot = await getDoc(
-        doc(useFirestore(), "draft", route.params.id.toString())
-      );
-      return snapshot.data() as SFProjectData;
-    } catch (e) {
-      console.error(e);
-      showToast({
-        title: "エラー",
-        body: "プロジェクトは存在しないか、アクセスする権限がありません。",
-      });
-      useRouter().replace({ path: "/404", query: { path: route.fullPath } });
-    }
-  }
-);
-const { pending: pendingOwners, data: dataOwners } = useLazyAsyncData(
-  "owners",
-  async () => {
-    const data = (await getOwner()).data();
-
-    return {
-      parentRef: parentRefDataToChildRefData(data) as {
-        [key: string]: { childs: {}; name: string; description: string };
-      },
-      childRef: data,
-      self: data[route.params.id.toString()] as Owner,
-    };
-  }
-);
+const { pending, data } = useProjectData(useRoute().params.id.toString(), true);
+const { pending: pendingOwners, data: dataOwners } = useOwnersData();
 
 const addSelectionToArray = (
   data: object,
