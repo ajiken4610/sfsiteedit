@@ -39,16 +39,7 @@ import { Owner } from "~~/composables/SFProject";
 
 const route = useRoute();
 const VSelect = useVSelect();
-const { pending, data } = useLazyAsyncData("owners", async () => {
-  const data = (await getOwner()).data();
-  return {
-    parentRef: parentRefDataToChildRefData(data) as {
-      [key: string]: { childs: {}; name: string; description: string };
-    },
-    childRef: data,
-    self: data[route.params.id.toString()] as Owner,
-  };
-});
+const { pending, data } = useOwnersData();
 
 const savingData = ref(false);
 const saveData = async () => {
