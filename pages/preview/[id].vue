@@ -40,9 +40,6 @@ div
       PartsMarkdownViewer.description(:src="project.description")
 </template>
 
-<script lang="ts">
-import platform from "platform";
-</script>
 <script setup lang="ts">
 import { SFProjectData } from "~/composables/firestore";
 import { getDoc, doc } from "firebase/firestore";
@@ -55,8 +52,10 @@ setTimeout(() => {
 const project = computed(() => toStrictProject(data.value?.project));
 
 const route = useRoute();
+
 const { pending, data } = useLazyAsyncData(
-  route.fullPath + route.query.submitted === "true" ? "-project" : "",
+  route.params.id.toString() +
+    (route.query.submitted === "true" ? "-project" : ""),
   async () => {
     try {
       const snapshot = await getDoc(

@@ -60,7 +60,7 @@
     )
   .d-flex
     button.btn.btn-outline-danger.px-4(@click="resetData") リセット
-    button.btn.btn-primary.ms-auto(
+    button.btn.btn-primary.ms-auto.px-4(
       @click="saveData",
       :class="{ disabled: savingData }"
     )

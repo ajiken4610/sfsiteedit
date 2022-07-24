@@ -48,6 +48,7 @@ function getWrapped(...wrapper: string[]) {
       鉄道模型部: {},
       カトリック研究会: {},
       囲碁将棋同好会: {},
+      パソコン部: {},
     },
     体験授業: {},
     運営: {
@@ -126,17 +127,10 @@ function handleDownload(object: { [key: string]: string }) {
   var bom = new Uint8Array([0xef, 0xbb, 0xbf]);
   var content = "";
   for (const key in object) {
-    content += `${key},https://sfsiteedit.web.app/owner/${object[key]}
-`;
+    content += `${key},https://sfsiteedit.web.app/owner/${object[key]}\n`;
   }
   var blob = new Blob([bom, content], { type: "text/csv" });
-  // @ts-ignore
-  if (window.navigator.msSaveBlob) {
-    // @ts-ignore
-    window.navigator.msSaveBlob(blob, "test.csv");
-  } else {
-    href.value = window.URL.createObjectURL(blob);
-  }
+  href.value = window.URL.createObjectURL(blob);
 }
 const initialized = ref(false);
 const structure = ref();

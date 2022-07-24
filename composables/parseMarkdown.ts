@@ -1,6 +1,7 @@
 import { Slugger, marked } from "marked";
 import hljs from "highlight.js";
 import sanitizeHtml from "sanitize-html";
+import katex from "katex";
 
 let rootSlugger = new Slugger();
 let modalIdSlugger = new Slugger();
@@ -62,6 +63,7 @@ const sanitizeHtmlOptions = {
       "*": ["data-bs-toggle", "data-bs-target"],
       iframe: ["src", "allowfullscreen", "allow"],
       "iframe-hidden": ["src", "allowfullscreen", "allow"],
+      span: ["style"],
     },
   },
   allowedClasses: {
@@ -71,6 +73,7 @@ const sanitizeHtmlOptions = {
     a: ["*"],
     button: ["*"],
     img: ["youtube-thumbnail"],
+    span: ["*"],
   },
   allowedIframeHostnames: ["youtube.com", "drive.google.com"],
 };
@@ -97,8 +100,27 @@ function parsePlaneMarkdown(src: string, tableOfContents: TableOfContents[]) {
   const modalIdInnerSlugger = new Slugger();
   const modalIdValue: { [key: string]: string } = {};
 
+  const mathsExpression = (expr) => {
+    try {
+      if (expr.match(/^\$\$[\s\S]*\$\$$/)) {
+        expr = expr.substr(2, expr.length - 4);
+
+        return katex.renderToString(expr, {
+          displayMode: true,
+          noannotation: true,
+        });
+      } else if (expr.match(/^\$[\s\S]*\$$/)) {
+        expr = expr.substr(1, expr.length - 2);
+        return katex.renderToString(expr, { isplayMode: false });
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   renderer.code = (code, language, isEscaped) => {
     let ret;
+
     if (
       language === "button" ||
       language === "button-modal" ||
@@ -138,6 +160,12 @@ function parsePlaneMarkdown(src: string, tableOfContents: TableOfContents[]) {
         const driveId = splitted[0];
         ret = `<div class="drive-frame"><div><div class="display-1">Loading...</div></div><iframe src="https://drive.google.com/file/d/${driveId}/preview" allowfullscreen></iframe></div>`;
         break;
+      case "math":
+        const math = mathsExpression(code);
+        if (math) {
+          ret = math;
+          break;
+        }
       default:
         ret = marked.Renderer.prototype.code.call(
           renderer,
@@ -148,12 +176,20 @@ function parsePlaneMarkdown(src: string, tableOfContents: TableOfContents[]) {
     }
     return ret;
   };
+  renderer.codespan = (code) => {
+    const math = mathsExpression(code);
+    if (math) {
+      return math;
+    }
+    return marked.Renderer.prototype.codespan.call(renderer, code);
+  };
   renderer.heading = (text, level, raw) => {
     const escapedText = text.toLowerCase().replace(/"+/g, "-");
     const id = rootSlugger.slug(slugger.slug(escapedText));
     tableOfContents.push({ name: text, level, id });
     return `<h${level} id="${id}"><a href="#${id}">${text}</a></h${level}>`;
   };
+
   return {
     result: sanitizeHtml(marked.parse(src, markedOptions), sanitizeHtmlOptions),
     modalIdValue,

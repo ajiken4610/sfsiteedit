@@ -2,9 +2,10 @@
 .flex-textarea
   .flex-textarea__dummy.font-monospace(aria-hidden="true") {{ modelValue + "\u200b" }}
   textarea.flex-textarea__textarea.form-control.font-monospace(
-      @input="updateValue"
-      :value="modelValue"
-      :placeholder="$props.placeholder")
+    @input="updateValue",
+    :value="modelValue",
+    :placeholder="$props.placeholder"
+  )
 </template>
 
 <script setup lang="ts">
