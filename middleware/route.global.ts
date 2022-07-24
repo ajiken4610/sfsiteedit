@@ -20,6 +20,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   } else if (to.path === "/new-owner") {
     const ownerId = await newOwner();
     showToast({ title: "新規組織", body: "新しい組織が作成されました。" });
-    return navigateTo({ path: "/owner/" + ownerId });
+    return navigateTo({ path: "/owner-editor/" + ownerId });
   }
 });

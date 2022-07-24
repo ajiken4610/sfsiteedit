@@ -17,13 +17,16 @@
         :class="{ 'd-table-cell align-middle': responsiveHorizontal }"
       )
         .h6.card-title(v-html="props.project.title")
-        .fs-light.text-muted.card-subtitle {{ props.project.owner }}
+        .fs-light.text-muted.card-subtitle {{ ownerName }}
         PartsMarkdownViewer.card-text.description(
           :src="props.project.description || ''"
         )
       NuxtLink.stretched-link(:to="'/preview/' + props.project.pid")
 </template>
 
+<script lang="ts">
+let owners, pending;
+</script>
 <script setup lang="ts">
 import { StrictSFProject } from "~~/composables/SFProject";
 
@@ -35,6 +38,19 @@ const props = withDefaults(
   }>(),
   { horizontal: false, responsive: true }
 );
+if (!owners) {
+  ({ data: owners, pending } = useOwnersData());
+}
+
+const ownerName = computed(() => {
+  if (pending.value) {
+    return "Loading";
+  } else {
+    return (
+      owners.value && getOwnerName(owners.value?.childRef, props.project.owner)
+    );
+  }
+});
 
 const responsiveHorizontal = ref(576 > window.innerWidth || props.horizontal);
 const onResize = () => {

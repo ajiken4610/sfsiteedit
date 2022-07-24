@@ -60,7 +60,7 @@ export const submitProject = async (id: string | null, project: SFProject) => {
 const ownerDoc = doc(useFirestore(), "owner", "root");
 
 export const newOwner = async () => {
-  const id = Math.random().toString().substring(2);
+  const id = Math.random().toString(36).substring(2);
   const data = {};
   data[id] = {};
   try {

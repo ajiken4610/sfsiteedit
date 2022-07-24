@@ -30,22 +30,24 @@ export const useOwnersData = () =>
         [key: string]: { childs: {}; name: string; description: string };
       },
       childRef: data,
-      self: data[useRoute().params.id.toString()],
     };
   });
 
 export const getOwnerName = (
   childRef: { [key: string]: { name: string; parent?: string } },
   ownerId: string,
-  offset = 0
+  offset = 2
 ) => {
   const owners = childRef;
-
-  let ret: string[] = [];
-  let current = ownerId;
-  while (current) {
-    ret.unshift(owners[current].name);
-    current = owners[current].parent;
+  try {
+    let ret: string[] = [];
+    let current = ownerId;
+    while (current) {
+      ret.unshift(owners[current].name);
+      current = owners[current].parent;
+    }
+    return ret.slice(offset).join(" ");
+  } catch (e) {
+    return ownerId;
   }
-  return ret.slice(offset).join(" ");
 };
