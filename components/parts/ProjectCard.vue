@@ -12,16 +12,13 @@
         svg(height="100%", width="100%")
           rect(width="100%", height="100%", fill="#888")
           text(x="50%", y="50%", dy=".4em", text-anchor="middle") No thumbnail
-    div(:class="{ 'col-8 d-table': responsiveHorizontal }")
-      .card-body(
-        :class="{ 'd-table-cell align-middle': responsiveHorizontal }"
-      )
-        .h6.card-title(v-html="props.project.title")
-        .fs-light.text-muted.card-subtitle {{ ownerName }}
-        PartsMarkdownViewer.card-text.description(
-          :src="props.project.description || ''"
-        )
-      NuxtLink.stretched-link(:to="'/preview/' + props.project.pid")
+    .card-body(:class="{ 'col-8 d-table': responsiveHorizontal }")
+      div(:class="{ 'd-table-cell align-middle': responsiveHorizontal }")
+        .card-text.tags.text-muted
+          template(v-if="project.tags", v-for="tag in project.tags") {{ "#" + tag + " " }}
+        .h6.card-title {{ project.title }}
+        .fs-light.text-muted {{ ownerName }}
+  NuxtLink.stretched-link(:to="'/preview/' + props.project.pid")
 </template>
 
 <script lang="ts">
@@ -63,7 +60,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-.vertical .description,
 .card-title {
   overflow: hidden;
   display: -webkit-box;
@@ -74,7 +70,7 @@ onUnmounted(() => {
 }
 .card-subtitle,
 .card-owner,
-.horizontal .description > :deep(*) {
+.tags {
   overflow: hidden;
   display: -webkit-box;
   box-orient: vertical;
@@ -85,16 +81,16 @@ onUnmounted(() => {
 .card-body {
   margin-bottom: 0;
 }
-.description:deep(*) {
+.tags:deep(*) {
   font-size: 100% !important;
 }
-.description:deep(img),
-.description:deep(pre),
-.description:deep(button),
-.description:deep(a),
-.description:deep(table),
-.description:deep(iframe),
-.description:deep(.table-of-contents) {
+.tags:deep(img),
+.tags:deep(pre),
+.tags:deep(button),
+.tags:deep(a),
+.tags:deep(table),
+.tags:deep(iframe),
+.tags:deep(.table-of-contents) {
   display: none;
 }
 
@@ -125,10 +121,13 @@ onUnmounted(() => {
 .stretched-link::after {
   transition: background-color 0.5s;
 }
-.description {
+.tags {
   font-size: 0.7rem;
   background: white; // linear-gradient(white, transparent);
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+.tag:not(:first-child) {
+  padding-left: 0.25em;
 }
 </style>

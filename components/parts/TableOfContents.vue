@@ -1,6 +1,6 @@
 <template lang="pug">
 div(v-for="current in showList")
-  .ms-2(v-if="current.isChild")
+  .px-2(v-if="current.isChild")
     PartsTableOfContents(
       :table="current.child",
       :prefix="(prefix || '') + current.index + '.'"

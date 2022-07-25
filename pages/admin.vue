@@ -7,9 +7,12 @@ div
     .mb-4
       h1 提出された企画
       PartsProjectCardList(:projects="projects")
-    div
+    .mb-4
       h1 編集中の企画
       PartsProjectCardList(:projects="draftProjects")
+    div
+      h1 エキスポート
+      LayoutExportView(:projects="projectData")
 </template>
 <script setup lang="ts">
 import { collection, getDocs } from "@firebase/firestore";
