@@ -78,7 +78,7 @@ const generateParentIdRef = (data: { [key: string]: { parent: string } }) => {
     finalIdRet[newKey].name = idRet[key].name;
     finalIdRet[newKey].description = idRet[key].description;
     finalIdRet[newKey].childIds = idRet[key].childIds;
-    finalIdRet[newKey].parent = idRet[key].parent;
+    finalIdRet[newKey].parent = idRet[key].parent.substring(0, 6);
   }
   return finalIdRet;
 };
