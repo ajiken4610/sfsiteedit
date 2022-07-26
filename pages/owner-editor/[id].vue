@@ -39,7 +39,7 @@ import { Owner } from "~~/composables/SFProject";
 
 const route = useRoute();
 const VSelect = useVSelect();
-const { pending, data } = useOwnersData();
+const { pending, data } = await useOwnersData();
 
 const savingData = ref(false);
 const saveData = async () => {

@@ -5,7 +5,6 @@ import {
   getDoc,
   setDoc,
 } from "@firebase/firestore";
-import routeGlobal from "~~/middleware/route.global";
 import { Owner, SFProject } from "./SFProject";
 
 export class SFProjectData {

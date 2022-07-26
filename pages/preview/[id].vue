@@ -26,7 +26,7 @@ const { pending, data } = useProjectData(
   route.params.id.toString(),
   !(route.query.submitted === "true")
 );
-const { pending: pendingOwners } = useOwnersData();
+const { pending: pendingOwners } = await useOwnersData();
 </script>
 
 <style scoped lang="scss">

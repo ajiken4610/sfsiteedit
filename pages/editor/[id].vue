@@ -25,7 +25,7 @@ import { SFProjectData } from "~~/composables/firestore";
 
 const route = useRoute();
 const { pending, data } = useProjectData(useRoute().params.id.toString(), true);
-const { pending: pendingOwners, data: dataOwners } = useOwnersData();
+const { pending: pendingOwners, data: dataOwners } = await useOwnersData();
 
 const addSelectionToArray = (
   data: object,

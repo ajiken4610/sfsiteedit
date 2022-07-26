@@ -52,7 +52,18 @@ export class BiGram {
     } else {
       let returnObject: { [key: string]: true } = {};
       for (let i = 0; i < text.length - 1; i++) {
-        const current = text.substring(i, i + 2);
+        const current = text
+          .substring(i, i + 2)
+          .toLowerCase()
+          .replaceAll(
+            /[アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポァィゥェォャュョッ]/g,
+            (src) =>
+              "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんがぎぐげござじずぜぞだぢづでどばびぶべぼはひふへほぁぃぅぇぉゃゅょっ".charAt(
+                "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポァィゥェォャュョッ".indexOf(
+                  src
+                )
+              )
+          );
         if (!current.match(/[\.\[\]\*\n`]/) && current.length === 2)
           returnObject[current] = true;
       }

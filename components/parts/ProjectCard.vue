@@ -36,9 +36,11 @@ const props = withDefaults(
   { horizontal: false, responsive: true }
 );
 if (!owners) {
-  ({ data: owners, pending } = useOwnersData());
+  const newOwners = await useOwnersData();
+  if (!owners) {
+    ({ data: owners, pending } = newOwners);
+  }
 }
-
 const ownerName = computed(() => {
   if (pending.value) {
     return "Loading";

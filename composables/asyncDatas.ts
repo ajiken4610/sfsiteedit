@@ -22,7 +22,7 @@ export const useProjectData = (id: string, draft: boolean = true) =>
   });
 
 export const useOwnersData = () =>
-  useLazyAsyncData("owners", async () => {
+  useAsyncData("owners", async () => {
     const data = (await getOwner()).data();
 
     return {

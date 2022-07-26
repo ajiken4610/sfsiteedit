@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   .display-1.text-center(
-    v-if="(pending || pendingDraft) && projectData && draft"
+    v-if="(pending || pendingDraft) && !projectData && !draft"
   ) Loading...
   div(v-else)
     .mb-4

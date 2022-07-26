@@ -34,8 +34,7 @@ const allowLoad = ref(false);
 setTimeout(() => {
   allowLoad.value = true;
 }, 2000);
-
-const { data: owners } = useOwnersData();
+const { data: owners } = await useOwnersData();
 
 const ownerName = computed(() =>
   getOwnerName(owners.value.childRef, props.project.owner)
