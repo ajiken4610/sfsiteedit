@@ -30,9 +30,6 @@ const { pending: pendingOwners } = await useOwnersData();
 </script>
 
 <style scoped lang="scss">
-.project-wrapper > :not(:last-child) {
-  margin-bottom: 1rem;
-}
 .horizontal-card-wrapper > * {
   max-width: 24rem;
 }
