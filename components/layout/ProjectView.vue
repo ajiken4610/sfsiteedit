@@ -1,28 +1,29 @@
 <template lang="pug">
-.title-owner-wrapper(v-if="project.type !== 'youtube'")
-  span.text-muted.tag(v-if="project.tags", v-for="tag in project.tags") {{ "#" + tag }}
-  h1(v-html="project.title")
-  PartsShareButton.float-end
-  .h5.text-muted {{ ownerName }}
-.iframe-wrapper(v-if="project.type !== 'none'")
-  img(v-if="project.thumbnail", :src="project.thumbnail")
-  .position-absolute.d-table.h-100.w-100 
-    .display-1.d-table-cell.align-middle.text-center Loading...
-  iframe(
-    v-if="allowLoad",
-    :src="getFrameLink(project)",
-    frameborder="0",
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-    allowfullscreen
-  )
-.title-owner-wrapper(v-if="project.type === 'youtube'")
-  span.text-muted.tag(v-if="project.tags", v-for="tag in project.tags") {{ "#" + tag }}
-  .h5(v-html="project.title")
-  PartsShareButton.float-end
-  .text-muted {{ ownerName }}
-hr
-.description-wrapper
-  PartsMarkdownViewer.description(:src="project.description")
+div
+  .title-owner-wrapper(v-if="project.type !== 'youtube'")
+    span.text-muted.tag(v-if="project.tags", v-for="tag in project.tags") {{ "#" + tag }}
+    h1(v-html="project.title")
+    PartsShareButton.float-end
+    .h5.text-muted {{ ownerName }}
+  .iframe-wrapper(v-if="project.type !== 'none'")
+    img(v-if="project.thumbnail", :src="project.thumbnail")
+    .position-absolute.d-table.h-100.w-100 
+      .display-1.d-table-cell.align-middle.text-center Loading...
+    iframe(
+      v-if="allowLoad",
+      :src="getFrameLink(project)",
+      frameborder="0",
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+      allowfullscreen
+    )
+  .title-owner-wrapper(v-if="project.type === 'youtube'")
+    span.text-muted.tag(v-if="project.tags", v-for="tag in project.tags") {{ "#" + tag }}
+    .h5(v-html="project.title")
+    PartsShareButton.float-end
+    .text-muted {{ ownerName }}
+  hr
+  .description-wrapper
+    PartsMarkdownViewer.description(:src="project.description")
 </template>
 
 <script setup lang="ts">
