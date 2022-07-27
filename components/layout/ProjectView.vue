@@ -30,7 +30,6 @@
 import { StrictSFProject } from "~~/composables/SFProject";
 
 const props = defineProps<{ project: StrictSFProject }>();
-console.log(props.project);
 
 const allowLoad = ref(false);
 setTimeout(() => {

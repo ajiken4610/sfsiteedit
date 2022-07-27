@@ -14,7 +14,6 @@ import { Owner } from "~~/composables/SFProject";
 const props = defineProps<{
   projects: { [key: string]: SFProjectData };
 }>();
-const apiKey = ref("");
 const result = ref("");
 
 const generateParentIdRef = (data: { [key: string]: { parent: string } }) => {
@@ -98,7 +97,23 @@ const exportData = async () => {
   ret.owners = generateParentIdRef(owners.value.childRef);
   const retProjects = {};
   for (const key in props.projects) {
-    retProjects[key.substring(0, 6)] = props.projects[key];
+    const current = props.projects[key].project;
+    const ret: SFProjectData = {
+      project: {
+        title: current.title,
+        description: current.description,
+        id: current.id,
+        owner: current.owner.substring(0, 6),
+        pid: current.pid.substring(0, 6),
+        ratio: current.ratio,
+        tags: current.tags,
+        thumbnail: current.thumbnail,
+        type: current.type,
+      },
+      uid: key.substring(0, 6),
+    };
+
+    retProjects[key.substring(0, 6)] = ret;
   }
   ret.projects = retProjects;
   const bigrams: {
