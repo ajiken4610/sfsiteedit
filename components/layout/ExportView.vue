@@ -23,6 +23,7 @@ const generationLoop = (
       name: string;
       description: string;
       parent: string;
+      icon: string;
     };
   },
   ret: {
@@ -31,6 +32,7 @@ const generationLoop = (
       name: string;
       description: string;
       parent: string;
+      icon: string;
     };
   }
 ) => {
@@ -40,6 +42,7 @@ const generationLoop = (
       name: currentOld.name,
       description: currentOld.description,
       parent: currentOld.parent?.substring?.(0, 6),
+      icon: currentOld.icon,
       childIds: (() => {
         const ret: string[] = [];
         for (const key in currentOld.childs) {
@@ -61,6 +64,7 @@ const generateParentIdRef = (parentRef: {
     name: string;
     description: string;
     parent: string;
+    icon: string;
   };
 }) => {
   const idRet = {};

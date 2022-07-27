@@ -32,6 +32,7 @@ export const useOwnersData = () =>
           name: string;
           description: string;
           parent: string;
+          icon: string;
         };
       },
       childRef: data,
