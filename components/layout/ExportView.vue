@@ -16,72 +16,56 @@ const props = defineProps<{
 }>();
 const result = ref("");
 
-const generateParentIdRef = (data: { [key: string]: { parent: string } }) => {
-  const copy = { ...data };
-  interface Ret {
-    childs?: { [key: string]: Ret };
-    parent?: string;
-  }
-  const ret: Ret = {};
-  const idRet: {
+const generationLoop = (
+  data: {
     [key: string]: {
+      childs: {};
+      name: string;
+      description: string;
       parent: string;
-      childIds?: string[];
-      childs?: any;
-      name?: string;
-      description?: string;
     };
-  } = {
-    ...data,
-  };
-  const solved: { [key: string]: string[] } = {};
-  let solvedCount = 1;
-  while (solvedCount) {
-    solvedCount = 0;
-    for (const key in copy) {
-      const current = copy[key];
-      const parentName = current.parent;
-      if (!parentName) {
-        ret[key] = current;
-        solved[key] = [];
-        delete copy[key];
-        solvedCount++;
-      } else if (parentName in solved) {
-        let parent = ret;
-        for (const route of solved[parentName]) {
-          parent = parent[route].childs;
+  },
+  ret: {
+    [key: string]: {
+      childIds: string[];
+      name: string;
+      description: string;
+      parent: string;
+    };
+  }
+) => {
+  for (const currentKey in data) {
+    const currentOld = data[currentKey];
+    const current = {
+      name: currentOld.name,
+      description: currentOld.description,
+      parent: currentOld.parent?.substring?.(0, 6),
+      childIds: (() => {
+        const ret: string[] = [];
+        for (const key in currentOld.childs) {
+          ret.push(key.substring(0, 6));
         }
-        parent = parent[parentName];
-        solved[key] = [...solved[parentName], parentName];
-        if (parent.childs) {
-          parent.childs[key] = current;
-        } else {
-          const childs = {};
-          childs[key] = current;
-          parent.childs = childs;
-        }
+        return ret;
+      })(),
+    };
+    if (currentOld.childs) {
+      generationLoop(currentOld.childs, ret);
+    }
+    ret[currentKey.substring(0, 6)] = current;
+  }
+};
 
-        if (!idRet[key].childIds) {
-          idRet[key].childIds = [];
-        }
-        idRet[key].childIds.push(key.substring(0, 6));
-        delete copy[key];
-        solvedCount++;
-      }
-    }
-  }
-  const finalIdRet = {};
-  for (const key in idRet) {
-    const newKey = key.substring(0, 6);
-    finalIdRet[newKey] = {};
-    finalIdRet[newKey].name = idRet[key].name;
-    finalIdRet[newKey].description = idRet[key].description;
-    finalIdRet[newKey].childIds = idRet[key].childIds;
-    if (idRet[key].parent) {
-      finalIdRet[newKey].parent = idRet[key].parent.substring(0, 6);
-    }
-  }
-  return finalIdRet;
+const generateParentIdRef = (parentRef: {
+  [key: string]: {
+    childs: {};
+    name: string;
+    description: string;
+    parent: string;
+  };
+}) => {
+  const idRet = {};
+  generationLoop(parentRef, idRet);
+  return idRet;
 };
 
 const exportData = async () => {
@@ -94,7 +78,8 @@ const exportData = async () => {
       owners: { [key: string]: string[] };
     };
   } = {};
-  ret.owners = generateParentIdRef(owners.value.childRef);
+  ret.owners = generateParentIdRef(owners.value.parentRef);
+
   const retProjects = {};
   for (const key in props.projects) {
     const current = props.projects[key].project;

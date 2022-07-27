@@ -27,7 +27,12 @@ export const useOwnersData = () =>
 
     return {
       parentRef: parentRefDataToChildRefData(data) as {
-        [key: string]: { childs: {}; name: string; description: string };
+        [key: string]: {
+          childs: {};
+          name: string;
+          description: string;
+          parent: string;
+        };
       },
       childRef: data,
     };
