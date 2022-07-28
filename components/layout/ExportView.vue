@@ -125,9 +125,9 @@ const exportData = async () => {
   }
   for (const key in ret.projects) {
     const current = ret.projects[key];
-    const strings: string[] = [];
+    let strings: string[] = [];
     strings.push(current.project.title);
-    strings.concat(current.project.tags);
+    strings = strings.concat(current.project.tags);
     const result = BiGram.createBiGramObjectFromTexts(strings, " 　");
     for (const bigram in result) {
       if (!bigrams.projects[bigram]) {
