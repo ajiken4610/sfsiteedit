@@ -127,7 +127,7 @@ function handleDownload(object: { [key: string]: string }) {
   var bom = new Uint8Array([0xef, 0xbb, 0xbf]);
   var content = "";
   for (const key in object) {
-    content += `${key},https://sfsiteedit.web.app/owner/${object[key]}\n`;
+    content += `${key},https://sfsiteedit.web.app/owner-editor/${object[key]}\n`;
   }
   var blob = new Blob([bom, content], { type: "text/csv" });
   href.value = window.URL.createObjectURL(blob);

@@ -21,7 +21,7 @@ div
       label.form-label(for="input-icon") アイコンURL
       input#input-icon.form-control(
         v-model="self.icon",
-        placeholder="アイコンのURL。サイズは2MBを推奨。"
+        placeholder="アイコンのURL。2MB以下JPEGを推奨。"
       )
     div
       label.form-label(for="input-parent") 所属親
