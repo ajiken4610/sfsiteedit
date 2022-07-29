@@ -9,7 +9,7 @@ div(v-else)
       .ms-auto.text-end
         NuxtLink.btn.btn-primary(:to="'/preview/' + route.params.id") 企画プレビューを表示
     .text-danger.lead このページをブックマークしてください！URLを紛失すると二度と開けません！
-    .text-muted このページはあなた({{ useUser().email }})だけが編集できます。
+    .text-muted このページは企画オーナー(UID:{{ data.uid }})だけが編集できます。
   LayoutProjectEditor(
     :project="data.project",
     :id="route.params.id.toString()",
