@@ -85,4 +85,5 @@ export class Owner {
   name: string;
   description: string;
   parent: string | null;
+  icon?: string;
 }
