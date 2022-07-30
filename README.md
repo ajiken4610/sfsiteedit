@@ -48,10 +48,10 @@ Markdown 記法では、以下のことが可能です。
 - リンク付きボタン
 - ダイアログ
 
-詳細は、以下のリンクを参照されたいです。
+詳細は、以下のリンクを参照されたいです。  
 https://sfsiteedit.web.app/preview/t42w4utKR6AmKfricono
 
-この記事自体も Markdown を使って書かれています。
+この記事自体も Markdown を使って書かれています。  
 https://github.com/ajiken4610/sfsiteedit/blob/main/README.md
 
 ### タグ
