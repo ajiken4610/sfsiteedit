@@ -86,6 +86,8 @@ Markdown 記法では、以下のことが可能です。
 ### サムネイル URL
 
 この値も IT 班がコピーとをとると思うので、ファイルの URL を入力しておいてください。
+ファイルコピー君
+https://docs.google.com/forms/d/e/1FAIpQLSd4L-nVVApTRX9ZQK1kuMWVQQjVxX3DiEh5Xnws5Ooqb1YxEw/viewform
 
 ### コンテンツの比率
 
