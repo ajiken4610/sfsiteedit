@@ -6,15 +6,27 @@
     Title {{ data.title || "Editor" }}
   div
     label.form-label(for="input-title") タイトル
+      button.btn.btn-sm.p-0.ms-2.bi-question-circle(
+        v-bTooltip.right.html,
+        title="文字数制限はない。<br>20-40文字程度を想定。"
+      )
     input#input-title.form-control(v-model="data.title", placeholder="タイトル...")
   div
     label.form-label(for="input-description") 詳細
+      button.btn.btn-sm.p-0.ms-2.bi-question-circle(
+        v-bTooltip.right.html,
+        title="Markdown記法が利用できる。"
+      )
     PartsFlexMonospaceEditor#input-description.form-control(
       v-model="data.description",
       placeholder="Markdown記法が利用できます"
     )
   div
     label.form-label(for="input-tags") タグ(検索キーワードとして参照されます。)
+      button.btn.btn-sm.p-0.ms-2.bi-question-circle(
+        v-bTooltip.right.html,
+        title="多めに書いておくことを推奨します。"
+      )
     VSelect(
       v-model="data.tags",
       multiple,
@@ -24,6 +36,10 @@
       template(#no-options) タグを入力してEnter
   div
     label.form-label(for="input-parent") 所属親
+      button.btn.btn-sm.p-0.ms-2.bi-question-circle(
+        v-bTooltip.right.html,
+        title="所属の親を選択してください。<br>所属は作成することも可能です。"
+      )
     VSelect(
       :options="owners",
       :reduce="(owner) => owner.id",
@@ -32,6 +48,10 @@
       template(#no-options) 検索にマッチする親がありません。
   div
     label.form-label(for="input-type") コンテンツタイプ
+      button.btn.btn-sm.p-0.ms-2.bi-question-circle(
+        v-bTooltip.right.html,
+        title="無し: コンテンツが以下の6つに当てはまらない場合。<br>Youtube: コンテンツがYoutube動画の場合。<br>GoogleDrive: コンテンツがGoogleDriveのファイル(PDFやDocument,Spreadsheetなど)の場合。"
+      )
     select#input-type.form-control(v-model="data.type")
       option(:value="undefined", disabled) 選択してください
       option(value="none") 無し
@@ -43,9 +63,17 @@
       option(value="iframe") サイト埋め込み
   div
     label.form-label(for="input-id") ファイルID
+      button.btn.btn-sm.p-0.ms-2.bi-question-circle(
+        v-bTooltip.right.html,
+        title="URLではありません。ファイルのIDです。"
+      )
     input#input-id.form-control(v-model="data.id", placeholder="ファイル、動画のID")
   div
     label.form-label(for="input-thumbnail") サムネイルURL
+      button.btn.btn-sm.p-0.ms-2.bi-question-circle(
+        v-bTooltip.right.html,
+        title="ドライブのファイルを用いる際は、<u>必ず</u>「ファイルコピー君」で取得したURLを使用してください。"
+      )
     .input-group
       input#input-thumbnail.form-control(
         v-model="data.thumbnail",
@@ -54,6 +82,10 @@
       button.btn.btn-secondary(v-if="isIdExtractable", @click="extractId") ファイルIDから抽出
   div
     label.form-label(for="input-ratio") コンテンツの比率
+      button.btn.btn-sm.p-0.ms-2.bi-question-circle(
+        v-bTooltip.right.html,
+        title="入力しなければ自動で比率が決定します。"
+      )
     input#input-ratio.form-control(
       v-model="data.ratio",
       placeholder="「height/width%」を入力。%以外にもCSSで使用できる単位が使用可能。"
@@ -82,6 +114,7 @@
 import { onBeforeRouteLeave } from "vue-router";
 import getYoutubeThumbnailUrl from "~~/composables/getYoutubeThumbnailUrl";
 import { SFProject } from "~~/composables/SFProject";
+import { VBTooltip } from "bootstrap-vue-3";
 const VSelect = useVSelect();
 const props = withDefaults(
   defineProps<{

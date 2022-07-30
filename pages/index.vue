@@ -2,7 +2,7 @@
 div
   h1 サレ祭サイト投稿
   div(v-if="useIsLoggedIn().value") 
-    .text-danger.display-6 一度作成すると削除できません。心の準備が整ってから押してください。
+    .text-danger 一度作成すると削除できません。心の準備が整ってから押してください。
     div ボタンから新しい企画を作成します。
     NuxtLink.btn.btn-primary(to="/new") 新しい企画を作成
     div 所属を新しく作成します。

@@ -62,6 +62,7 @@ $modal-content-color: $body-color;
 $toast-header-color: $body-color;
 $toast-background-color: rgba(black, 0.5);
 $toast-header-background-color: rgba(black, 0.1);
+$tooltip-max-width: 50vw;
 
 $dropdown-link-color: $body-bg;
 
