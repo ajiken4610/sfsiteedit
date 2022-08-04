@@ -5,6 +5,7 @@ div
   div(v-else)
     .form-wrapper.mb-2
       .input-group
+        input.form-control(placeholder="親", v-model="parentId")
         template(v-for="(prefix,index) of prefixes")
           input.form-control(v-model="prefixes[index]")
         button.btn.btn-light(v-if="!initialized", @click="init") 所属を初期化
@@ -96,14 +97,15 @@ if (useUser().email !== "admin@sfsiteedit.web.app") {
   useRouter().replace("/");
 }
 const initializing = ref(false);
-const prefixes = ref(["sf", new Date().getFullYear().toString()]);
+const parentId = ref("08cxkutrp6j");
+const prefixes = ref([new Date().getFullYear().toString()]);
 
 const initLoop = (
   owners: { [key: string]: any },
   ret: { [key: string]: any },
   retObj: { [key: string]: Owner },
   prefix: string = "",
-  parent: string = null
+  parent: string = parentId.value
 ) => {
   for (const owner in owners) {
     const id = Math.random().toString(36).substring(2);
