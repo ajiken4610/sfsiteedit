@@ -73,16 +73,23 @@ export const newOwner = async () => {
   }
   return id;
 };
+function removeUndefinedFromObject(object: { [key: string]: any }): {
+  [key: string]: any;
+} {
+  return Object.fromEntries(
+    Object.entries(object).filter(([k, v]) => v !== undefined)
+  );
+}
 
 export const setOwner = async (id: string, saveData: Owner) => {
   const data = {};
   if (!id) id = Math.random().toString(36).substring(2);
-  const owner: Owner = {
+  const owner = removeUndefinedFromObject({
     name: saveData.name,
     description: saveData.description,
     parent: saveData.parent,
     icon: saveData.icon,
-  };
+  }) as Owner;
   data[id] = { ...owner, edited: arrayUnion(useUser().email) };
   try {
     await setDoc(ownerDoc, data, { merge: true });
