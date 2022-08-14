@@ -273,4 +273,18 @@ onMounted(() => {
   margin-right: 0.25rem;
   font-weight: bolder;
 }
+.markdown-viewer:deep(h1),
+.markdown-viewer:deep(h2),
+.markdown-viewer:deep(h3),
+.markdown-viewer:deep(h4),
+.markdown-viewer:deep(h5),
+.markdown-viewer:deep(h6) {
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-bottom: 1px solid #6c757d;
+  border-left: 3px solid white;
+  border-radius: 5px;
+}
 </style>
