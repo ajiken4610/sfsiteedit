@@ -2,9 +2,10 @@
 .flex-textarea
   .flex-textarea__dummy(aria-hidden="true") {{ modelValue + "\u200b" }}
   textarea.flex-textarea__textarea.form-control(
-      @input="updateValue"
-      :value="modelValue"
-      :placeholder="$props.placeholder")
+    @input="updateValue",
+    :value="modelValue",
+    :placeholder="$props.placeholder"
+  )
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,5 @@
 <template lang="pug">
-.dropdown(:class="{copied}")
+.dropdown(:class="{ copied }")
   i.share-button.bi-share.h3.dropdown-toggle(data-bs-toggle="dropdown")
   ul.dropdown-menu.dropdown-menu-dark.dropdown-menu-end
     li.dropdown-item(@click="openTwitter")
@@ -11,10 +11,9 @@
     li.dropdown-item(@click="copyToClipboard")
       span.bi-clipboard
       span.share Clipboard
-    li.dropdown-item.shareAPI(v-if="shareAPIEnabled" @click="share" )
+    li.dropdown-item.shareAPI(v-if="shareAPIEnabled", @click="share")
       span.bi-three-dots
       span.share Other
-
 </template>
 
 <script setup lang="ts">
