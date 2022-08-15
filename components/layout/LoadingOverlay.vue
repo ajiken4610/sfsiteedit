@@ -1,5 +1,5 @@
 <template lang="pug">
-.overlay.animatable.d-table(:class="{overlaying,touchable:loading}")
+.overlay.animatable.d-table(:class="{ overlaying, touchable: loading }")
   .display-1.d-table-cell.align-middle.text-center Loading...
 </template>
 
