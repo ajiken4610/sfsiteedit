@@ -69,6 +69,7 @@
         title="URLではありません。ファイルのIDです。"
       )
     input#input-id.form-control(v-model="data.id", placeholder="ファイル、動画のID")
+    .form-text 必ずファイルコピー君で取得したURLのIDを使用してください。この欄に入力するのはURLではなくファイルのIDであることを忘れないでください。
   div
     label.form-label(for="input-thumbnail") サムネイルURL
       button.btn.btn-sm.p-0.ms-2.bi-question-circle(
@@ -81,6 +82,7 @@
         placeholder="サムネイル画像のURLを指定。JPEG>2MBを推奨。"
       )
       button.btn.btn-secondary(v-if="isIdExtractable", @click="extractId") ファイルIDから抽出
+    .form-text 必ずファイルコピー君で取得したURLを使用してください。
   div
     label.form-label(for="input-ratio") コンテンツの比率
       button.btn.btn-sm.p-0.ms-2.bi-question-circle(
