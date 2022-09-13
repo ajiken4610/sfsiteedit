@@ -17,6 +17,7 @@ div
       PartsFlexMonospaceEditor#input-name.form-control(
         v-model="self.description"
       )
+      .form-text Markdown記法が使用できます。
     div
       label.form-label(for="input-icon") アイコンURL
       input#input-icon.form-control(
