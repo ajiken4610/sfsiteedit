@@ -113,8 +113,8 @@ const exportData = async () => {
   for (const key in ret.owners) {
     const current = ret.owners[key];
     const strings: string[] = [];
-    strings.push(current.name);
-    strings.push(current.description);
+    strings.push(current.name || "");
+    strings.push(current.description || "");
     const result = BiGram.createBiGramObjectFromTexts(strings, " 　");
     for (const bigram in result) {
       if (!bigrams.owners[bigram]) {
