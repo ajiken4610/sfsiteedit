@@ -48,7 +48,9 @@ export const getOwnerName = (
   try {
     let ret: string[] = [];
     let current = ownerId;
-    while (current) {
+    const maxRec = 5;
+    let i = 0;
+    while (current && i++ < maxRec) {
       ret.unshift(owners[current].name);
       current = owners[current].parent;
     }
