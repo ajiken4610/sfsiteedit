@@ -128,6 +128,7 @@ const exportData = async () => {
     let strings: string[] = [];
     strings.push(current.project.title);
     strings = strings.concat(current.project.tags);
+    strings = strings.map((val) => val || "");
     const result = BiGram.createBiGramObjectFromTexts(strings, " 　");
     for (const bigram in result) {
       if (!bigrams.projects[bigram]) {
